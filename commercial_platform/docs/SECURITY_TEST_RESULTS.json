@@ -1,0 +1,124 @@
+{
+  "suite": "NexoraAI V14.2 Commercial Security, Licensing, Payment & IP Quarantine Suite",
+  "total_tests": 23,
+  "passed": 23,
+  "failed": 0,
+  "status": "PASS",
+  "tests": [
+    {
+      "test": "sec_01_password_hashing_pbkdf2_600k",
+      "status": "PASS",
+      "detail": "iterations=600000, salt_hex_len=32"
+    },
+    {
+      "test": "sec_02_brute_force_account_lockout",
+      "status": "PASS",
+      "detail": "Account is temporarily locked due to repeated failed login attempts."
+    },
+    {
+      "test": "sec_03_public_admin_registration_blocked",
+      "status": "PASS",
+      "detail": "Public registration cannot assign administrative roles."
+    },
+    {
+      "test": "sec_04_rbac_customer_to_admin_escalation_blocked",
+      "status": "PASS",
+      "detail": "Access denied: 'admin' role required."
+    },
+    {
+      "test": "sec_05_forged_session_token_rejected",
+      "status": "PASS",
+      "detail": "Invalid session token signature."
+    },
+    {
+      "test": "sec_06_device_limit_enforcement",
+      "status": "PASS",
+      "detail": "dev1=200, dev2=Device limit reached (1/1 active devices for personal edition)."
+    },
+    {
+      "test": "sec_07_desktop_offline_lease_tampering_and_binding",
+      "status": "PASS",
+      "detail": "valid=True, wrong_fp=Device fingerprint mismatch (lease belongs to another machine)., tampered=Offline lease public digest mismatch (tampering detected)."
+    },
+    {
+      "test": "sec_08_zero_private_signing_keys_in_desktop_client",
+      "status": "PASS",
+      "detail": "Desktop client verifies public lease digest without possessing `_private_signing_key`."
+    },
+    {
+      "test": "sec_09_license_revocation_blocks_entitlement_and_download",
+      "status": "PASS",
+      "detail": "entitled=False, dl_status=403"
+    },
+    {
+      "test": "sec_10_payment_disabled_by_default_until_onboarding",
+      "status": "PASS",
+      "detail": "Payment processing is currently disabled until merchant eligibility, tax registration, and legal onboarding are completed by an authorized business representative."
+    },
+    {
+      "test": "sec_11_pci_raw_card_data_rejected",
+      "status": "PASS",
+      "detail": "PCI Security Policy: Never submit raw payment card details to NexoraAI servers."
+    },
+    {
+      "test": "sec_12_client_reported_payment_claim_rejected",
+      "status": "PASS",
+      "detail": "Security Policy Violation: Paid licenses are never activated from client-side payment assertions. A cryptographically signed server-to-server provider webhook is mandatory."
+    },
+    {
+      "test": "sec_13_webhook_hmac_verification_and_idempotency",
+      "status": "PASS",
+      "detail": "forged=403, first=PAID_VERIFIED, replay=IDEMPOTENT_DUPLICATE_IGNORED"
+    },
+    {
+      "test": "sec_14_qwen_adapter_quarantined_and_single_use_download_token",
+      "status": "PASS",
+      "detail": "qwen_dl=403, native_1=200, native_replay_2=403"
+    },
+    {
+      "test": "sec_15_privacy_analytics_rejects_prompt_collection",
+      "status": "PASS",
+      "detail": "PrivacyViolationError raised when attempting to log `prompt` field."
+    },
+    {
+      "test": "sec_16_database_backup_and_disaster_recovery",
+      "status": "PASS",
+      "detail": "backup=nexora_commercial_sec_test_20261108_085727.sqlite3, sha256=9633779c22012420..."
+    },
+    {
+      "test": "sec_17_api_rate_limiting",
+      "status": "PASS",
+      "detail": "Blocked on 6th request: 429 Too Many Requests: Rate limit exceeded."
+    },
+    {
+      "test": "sec_18_customer_device_deactivation_frees_slot",
+      "status": "PASS",
+      "detail": "deact_status=200, new_activate_status=200"
+    },
+    {
+      "test": "sec_19_admin_license_suspension_and_reactivation",
+      "status": "PASS",
+      "detail": "susp=200, ent_susp=403, reac=200, ent_reac=200"
+    },
+    {
+      "test": "sec_20_admin_customer_management_and_account_toggle",
+      "status": "PASS",
+      "detail": "list_count=2, deact=200, deact_access=403"
+    },
+    {
+      "test": "sec_21_support_ticket_lifecycle",
+      "status": "PASS",
+      "detail": "created=tkt_4a9a5c37095b, replied_status=RESOLVED"
+    },
+    {
+      "test": "sec_22_object_storage_sigv4_and_credential_protection",
+      "status": "PASS",
+      "detail": "Presigned SigV4 generated successfully with zero secret leakage: https://test-account.r2.cloudflarestorage.com/nexora-releases/commercial_platfor..."
+    },
+    {
+      "test": "sec_23_session_logout_and_revocation",
+      "status": "PASS",
+      "detail": "logout=200, access_after_logout=403 (Session is invalid or revoked.)"
+    }
+  ]
+}

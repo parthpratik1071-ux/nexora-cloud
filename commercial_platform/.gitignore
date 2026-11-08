@@ -1,0 +1,35 @@
+# NexoraAI Commercial Platform - .gitignore
+
+# Large distribution packages & installers (Stored in Cloudflare R2, not Git)
+dist/*.tar.gz
+dist/*.zip
+dist/*.exe
+dist/*.dmg
+*.tar.gz
+*.zip
+
+# Database files & local persistence
+database/*.sqlite3
+database/*.sqlite3-wal
+database/*.sqlite3-shm
+*.sqlite3
+backups/
+
+# Environment variables & secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# IDE & OS files
+.DS_Store
+Thumbs.db

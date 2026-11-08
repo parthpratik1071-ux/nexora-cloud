@@ -1,0 +1,21 @@
+# NexoraAI V14.2 — Production Systemd Service (`systemd_nexora_commercial.service`)
+[Unit]
+Description=NexoraAI V14.2 Commercial Licensing, Distribution & Web Platform
+After=network.target
+
+[Service]
+Type=simple
+User=nexora
+Group=nexora
+WorkingDirectory=/opt/NexoraAI_V14_2_Commercial_Product
+EnvironmentFile=/etc/nexora/production.env
+ExecStart=/usr/bin/python3 commercial_platform/api/wsgi_production_server.py --host 127.0.0.1 --port 8080
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/NexoraAI_V14_2_Commercial_Product/commercial_platform/database /opt/NexoraAI_V14_2_Commercial_Product/commercial_platform/backups
+
+[Install]
+WantedBy=multi-user.target

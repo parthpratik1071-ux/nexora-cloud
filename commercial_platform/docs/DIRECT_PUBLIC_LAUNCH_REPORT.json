@@ -1,0 +1,54 @@
+{
+  "overall_status": "PASS",
+  "live_http_website_served": true,
+  "live_https_tls_socket_verified": true,
+  "live_health_endpoint_verified": true,
+  "live_customer_registration_and_login": true,
+  "live_rbac_403_enforcement": true,
+  "live_admin_pricing_and_license_issuance": true,
+  "live_device_activation_and_entitlement": true,
+  "live_binary_download_stream_and_single_use_lock": {
+    "first_stream_status": 200,
+    "streamed_header_bytes": 65536,
+    "x_artifact_sha256_header": "deb85102d50b2a73f41e40d15e5ccba070080d1a3939934481eb4e0879a6b87a",
+    "second_replay_status_blocked": 403,
+    "verified": true
+  },
+  "live_customer_dashboard_and_support_tickets": true,
+  "live_admin_error_monitoring": {
+    "status_code": 200,
+    "logged_security_warnings_captured": true
+  },
+  "native_desktop_installer_execution": {
+    "installer_exit_code": 0,
+    "launcher_self_test_status": "PASS",
+    "installed_model_sha256": "d285ab0e4e24916f27a7d7ec4b846c6a5bbc00e6f92d455f02083f851c073e56",
+    "qwen_lora_absent_in_installed_tree": true
+  },
+  "package_manifest": {
+    "product": "NexoraAI V14.2 Official Commercial Distribution Packages",
+    "version": "14.2.0",
+    "built_at_utc": "2026-11-08T08:50:19Z",
+    "desktop_installer_tar_gz": {
+      "filename": "NexoraAI_V14_2_Native_Desktop_Installer.tar.gz",
+      "path": "commercial_platform/dist/NexoraAI_V14_2_Native_Desktop_Installer.tar.gz",
+      "size_bytes": 123510154,
+      "sha256": "52b83050f4e24aa44d7238f8e5e6db845d29fe5cde23b192056a01d465d2a837",
+      "contains_qwen_lora_adapter": false,
+      "contains_private_signing_keys": false
+    },
+    "installer_script_sh": {
+      "filename": "install_nexora_v14_2_desktop.sh",
+      "path": "commercial_platform/dist/install_nexora_v14_2_desktop.sh",
+      "size_bytes": 2422,
+      "sha256": "e729d801067ead4996cbdee52eec4ad1910d84d8bfc9fa134e2ca200a8da1861"
+    },
+    "authorized_native_model_checkpoint": {
+      "path": "engine_v14_1/checkpoints/v14_neural/model.safetensors",
+      "parameters": 15684488,
+      "tensors": 39,
+      "size_bytes": 62741608,
+      "sha256": "d285ab0e4e24916f27a7d7ec4b846c6a5bbc00e6f92d455f02083f851c073e56"
+    }
+  }
+}

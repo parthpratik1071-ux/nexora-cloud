@@ -1,0 +1,45 @@
+# Fly.io configuration for NexoraAI V14.2 Commercial Cloud Service
+app = "nexora-cloud-licensing"
+primary_region = "iad"
+
+[build]
+  dockerfile = "commercial_platform/Dockerfile"
+
+[env]
+  HOST = "0.0.0.0"
+  PORT = "8080"
+  PYTHONUNBUFFERED = "1"
+  NEXORA_CLOUD_MODE = "1"
+  NEXORA_DB_PATH = "/data/nexora_commercial_v14_1.sqlite3"
+  NEXORA_STORAGE_BACKEND = "local"
+  NEXORA_ENABLE_LIVE_PAYMENTS = "false"
+  NEXORA_RATE_LIMIT_PER_MINUTE = "60"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ["app"]
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 200
+    hard_limit = 250
+
+  [[http_service.checks]]
+    grace_period = "5s"
+    interval = "30s"
+    method = "GET"
+    path = "/api/v1/health"
+    timeout = "5s"
+
+[[mounts]]
+  source = "nexora_data"
+  destination = "/data"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256

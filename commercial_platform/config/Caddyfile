@@ -1,0 +1,12 @@
+# NexoraAI V14.2 — Automatic Let's Encrypt HTTPS Configuration (`Caddyfile`)
+nexora.example.com {
+    encode zstd gzip
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+    reverse_proxy 127.0.0.1:8080
+}

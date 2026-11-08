@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  nexora-cloud:
+    build:
+      context: .
+      dockerfile: commercial_platform/Dockerfile
+    container_name: nexora-commercial-service
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+      - NEXORA_DB_PATH=/app/data/nexora_commercial_v14_1.sqlite3
+      - NEXORA_SESSION_HMAC_SECRET=${NEXORA_SESSION_HMAC_SECRET:-a8d05fb9019cf88721ad4320984efc77}
+      - NEXORA_LICENSE_PRIVATE_KEY=${NEXORA_LICENSE_PRIVATE_KEY:-c324e908ef1284a0d9987b1c34a2e551}
+      - NEXORA_DOWNLOAD_HMAC_SECRET=${NEXORA_DOWNLOAD_HMAC_SECRET:-f98124b890cc1124ae87720914bc88a3}
+      - NEXORA_PAYMENT_WEBHOOK_SECRET=${NEXORA_PAYMENT_WEBHOOK_SECRET:-whsec_demo981240182}
+      - NEXORA_ENABLE_LIVE_PAYMENTS=false
+      - NEXORA_STORAGE_BACKEND=${NEXORA_STORAGE_BACKEND:-local}
+      - NEXORA_S3_ENDPOINT_URL=${NEXORA_S3_ENDPOINT_URL:-}
+      - NEXORA_S3_BUCKET=${NEXORA_S3_BUCKET:-}
+      - NEXORA_S3_REGION=${NEXORA_S3_REGION:-auto}
+      - NEXORA_S3_ACCESS_KEY_ID=${NEXORA_S3_ACCESS_KEY_ID:-}
+      - NEXORA_S3_SECRET_ACCESS_KEY=${NEXORA_S3_SECRET_ACCESS_KEY:-}
+      - NEXORA_ADMIN_INITIAL_EMAIL=${NEXORA_ADMIN_INITIAL_EMAIL:-admin@nexora.local}
+      - NEXORA_ADMIN_INITIAL_PASSWORD=${NEXORA_ADMIN_INITIAL_PASSWORD:-NexoraAdmin2026!SecureKey}
+    volumes:
+      - nexora-data:/app/data
+      - nexora-backups:/app/commercial_platform/backups
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/api/v1/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+
+volumes:
+  nexora-data:
+  nexora-backups:

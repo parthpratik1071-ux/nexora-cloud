@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: nexora-cloud-licensing
+    env: python
+    plan: free
+    region: oregon
+    buildCommand: "pip install --upgrade pip"
+    startCommand: "python3 commercial_platform/api/wsgi_production_server.py --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: NEXORA_CLOUD_MODE
+        value: "1"
+      - key: NEXORA_STORAGE_BACKEND
+        value: local
+      - key: NEXORA_ENABLE_LIVE_PAYMENTS
+        value: "false"
+      - key: NEXORA_RATE_LIMIT_PER_MINUTE
+        value: "60"
+      - key: NEXORA_SESSION_HMAC_SECRET
+        generateValue: true
+      - key: NEXORA_LICENSE_PRIVATE_KEY
+        generateValue: true
+      - key: NEXORA_DOWNLOAD_HMAC_SECRET
+        generateValue: true
+      - key: NEXORA_PAYMENT_WEBHOOK_SECRET
+        generateValue: true
+      - key: NEXORA_ADMIN_INITIAL_EMAIL
+        value: admin@nexora.local
+      - key: NEXORA_ADMIN_INITIAL_PASSWORD
+        sync: false
+      - key: NEXORA_S3_ENDPOINT_URL
+        sync: false
+      - key: NEXORA_S3_BUCKET
+        sync: false
+      - key: NEXORA_S3_ACCESS_KEY_ID
+        sync: false
+      - key: NEXORA_S3_SECRET_ACCESS_KEY
+        sync: false

@@ -1,0 +1,46 @@
+# NexoraAI Commercial Cloud Deployment - .gitignore
+
+# Quarantined assets (Strict IP Quarantine)
+engine_v14_1/checkpoints/best/
+quarantine/
+*.adapter
+adapter_model.safetensors
+adapter_config.json
+
+# Large distribution packages & installers (Stored in Cloudflare R2, not Git)
+commercial_platform/dist/*.tar.gz
+commercial_platform/dist/*.zip
+dist/
+*.tar.gz
+*.zip
+
+# Database files & local persistence
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+commercial_platform/database/*.sqlite3
+commercial_platform/database/*.sqlite3-wal
+commercial_platform/database/*.sqlite3-shm
+commercial_platform/backups/
+backups/
+
+# Environment variables & secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# IDE & OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
