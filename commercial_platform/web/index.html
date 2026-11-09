@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NexoraAI V14.2 — Sovereign Neuro-Symbolic Commercial AI Platform</title>
+  <title>NexoraAI V14.2 — Free Online AI Chat &amp; Offline Desktop Assistant</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,1302 +30,204 @@
     .mono {
       font-family: 'JetBrains Mono', monospace;
     }
-    .glass-panel {
-      background: rgba(15, 20, 28, 0.88);
-      border: 1px solid rgba(51, 65, 85, 0.55);
-    }
     .subtle-grid {
-      background-image: radial-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px);
       background-size: 24px 24px;
+    }
+    pre {
+      background: #030712;
+      border: 1px solid #1f2937;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8125rem;
+    }
+    code {
+      font-family: 'JetBrains Mono', monospace;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col subtle-grid selection:bg-emerald-500/30 selection:text-emerald-200">
 
-  <!-- Top Pre-Launch Governance Banner -->
-  <div class="bg-slate-900/95 border-b border-slate-800 px-4 py-2 text-xs text-slate-300">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2">
-        <span class="inline-flex items-center px-2 py-0.5 rounded font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 mono">MODEL FROZEN: V14.2</span>
-        <span>Native Standalone: <strong class="text-white mono">15,684,488</strong> params (<span class="mono">39</span> FP32 tensors, <span class="mono">d_model=384</span>)</span>
-        <span class="hidden md:inline text-slate-500">|</span>
-        <span class="hidden md:inline text-amber-300/90">Qwen LoRA (<span class="mono">8,798,208</span> params): <strong>IP Quarantined</strong> from commercial downloads</span>
-      </div>
+  <!-- Top Navigation (Clean, Simple, Zero Forced Login) -->
+  <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur border-b border-slate-800/80 px-4 py-3">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <span id="sessionStatusPill" class="px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 mono">Guest (Unauthenticated)</span>
-        <button id="topAuthActionBtn" type="button" class="text-emerald-400 hover:text-emerald-300 underline font-medium">Sign In</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Navigation Bar -->
-  <header class="sticky top-0 z-30 bg-slate-950/90 backdrop-blur border-b border-slate-800/80">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
-        <button type="button" data-nav="home" class="nav-btn flex items-center gap-2.5 text-left focus:outline-none">
-          <div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold mono text-sm">NX</div>
+        <a href="/" class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold mono text-sm shadow-lg shadow-emerald-500/10">NX</div>
           <div>
-            <div class="font-semibold tracking-tight text-white text-base leading-none">NexoraAI <span class="text-xs font-normal text-emerald-400 mono">V14.2</span></div>
-            <div class="text-[11px] text-slate-400">Proprietary Neuro-Symbolic Software</div>
+            <div class="font-bold tracking-tight text-white text-base leading-none flex items-center gap-1.5">
+              NexoraAI <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 mono">V14.2</span>
+            </div>
+            <div class="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+              <span>15.68M Neuro-Symbolic • Online &amp; Free</span>
+            </div>
           </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="showOfflineModalBtn" type="button" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs text-emerald-300 font-medium transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Run Offline on PC</span>
+        </button>
+        <button id="clearChatBtn" type="button" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs text-slate-400 hover:text-white transition">
+          New Chat
         </button>
       </div>
-
-      <nav class="flex flex-wrap items-center gap-1 text-xs font-medium">
-        <button type="button" data-nav="home" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Home</button>
-        <button type="button" data-nav="product" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Product</button>
-        <button type="button" data-nav="features" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Features</button>
-        <button type="button" data-nav="technology" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Technology</button>
-        <button type="button" data-nav="performance" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Performance</button>
-        <button type="button" data-nav="pricing" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Pricing</button>
-        <button type="button" data-nav="documentation" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Docs</button>
-        <button type="button" data-nav="downloads" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Downloads</button>
-        <button type="button" data-nav="legal" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Legal &amp; IP</button>
-        <button type="button" data-nav="support" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Support</button>
-        <button type="button" data-nav="login" class="nav-btn px-2.5 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800/70">Login</button>
-        <button type="button" data-nav="customer-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md bg-slate-800 text-emerald-300 border border-slate-700 hover:bg-slate-700">Customer Portal</button>
-        <button type="button" data-nav="admin-dashboard" class="nav-btn px-2.5 py-1.5 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-700/50 hover:bg-indigo-900/70">Admin Console</button>
-      </nav>
     </div>
   </header>
 
-  <!-- Toast Notification Banner -->
-  <div id="toastBanner" class="hidden fixed bottom-5 right-5 z-50 max-w-md glass-panel rounded-lg px-4 py-3 shadow-2xl border-l-4 border-emerald-400 text-xs text-slate-100">
-    <div class="flex items-start justify-between gap-3">
-      <div id="toastMessage" class="leading-relaxed"></div>
-      <button id="closeToastBtn" type="button" class="text-slate-400 hover:text-white font-bold">✕</button>
-    </div>
-  </div>
+  <!-- Main Chat Window (ChatGPT Style) -->
+  <main class="flex-1 flex flex-col max-w-4xl w-full mx-auto px-4 py-4 md:py-6">
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-8">
+    <!-- Conversation Feed Container -->
+    <div id="chatFeed" class="flex-1 overflow-y-auto space-y-4 pb-4">
 
-    <!-- VIEW 1: HOME -->
-    <section id="view-home" class="page-view space-y-10">
-      <div class="glass-panel rounded-2xl p-8 md:p-10 border border-slate-800">
-        <div class="max-w-3xl space-y-5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs text-slate-300">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>Proprietary Commercial Software Distribution • Final Frozen Model V14.2</span>
-          </div>
-          <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Deterministic Neuro-Symbolic Intelligence. Built for Local Execution.
+      <!-- Initial Welcome State (Shown when no messages) -->
+      <div id="welcomeCard" class="text-center py-8 md:py-12 space-y-6">
+        <div class="inline-flex w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 items-center justify-center text-emerald-400 text-2xl font-bold mono shadow-xl shadow-emerald-500/10">
+          NX
+        </div>
+        <div class="space-y-2">
+          <h1 class="text-2xl md:text-4xl font-bold text-white tracking-tight">
+            How can NexoraAI help you today?
           </h1>
-          <p class="text-slate-300 text-sm md:text-base leading-relaxed">
-            NexoraAI V14.2 combines a compact, purpose-built standalone Causal Mixture-of-Experts neural model (<span class="mono text-emerald-300">15,684,488</span> parameters across <span class="mono text-emerald-300">39</span> FP32 tensors) with SymPy algebraic verification, a restricted 5-language compiler sandbox, and deterministic Semantic Memory 2.2. Engineered by <strong>Pratik Parth</strong> for offline-capable desktop and enterprise workstations.
-          </p>
-          <div class="flex flex-wrap gap-3 pt-2">
-            <a href="#instant-ai-playground" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition flex items-center gap-1.5">
-              <span>⚡ Try Live AI Chat Below</span>
-              <span>↓</span>
-            </a>
-            <button type="button" data-nav="downloads" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-medium text-xs transition">💻 Run Locally on PC (Offline)</button>
-            <button type="button" data-nav="customer-dashboard" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-medium text-xs transition">Customer Portal</button>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-800/80">
-          <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
-            <div class="text-xs text-slate-400">Standalone Native Model</div>
-            <div class="text-xl font-bold text-white mono mt-1">15,684,488</div>
-            <div class="text-[11px] text-emerald-400 mt-0.5">39 FP32 Tensors • d_model=384</div>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
-            <div class="text-xs text-slate-400">CPU KV-Cached Throughput</div>
-            <div class="text-xl font-bold text-white mono mt-1">448.66 tok/s</div>
-            <div class="text-[11px] text-emerald-400 mt-0.5">128-token P50 • 2.11 ms/step</div>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
-            <div class="text-xs text-slate-400">Semantic Memory 2.2 (525Q)</div>
-            <div class="text-xl font-bold text-white mono mt-1">99.04% Prec</div>
-            <div class="text-[11px] text-emerald-400 mt-0.5">88.29% Recall • 93.35% F1</div>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-900/70 border border-slate-800">
-            <div class="text-xs text-slate-400">Commercial Security Suite</div>
-            <div class="text-xl font-bold text-white mono mt-1">16 / 16 PASS</div>
-            <div class="text-[11px] text-emerald-400 mt-0.5">PBKDF2-600k • Signed Leases</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- LIVE INTERACTIVE AI PLAYGROUND (TRY IMMEDIATELY ON HOME PAGE) -->
-      <div id="instant-ai-playground" class="glass-panel rounded-2xl p-6 md:p-8 border-2 border-emerald-500/40 shadow-2xl bg-slate-900/95 space-y-5">
-        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
-          <div class="flex items-center gap-3">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-            </span>
-            <div>
-              <h2 class="text-base md:text-lg font-bold text-white flex items-center gap-2">
-                Live Interactive AI Chat — Test NexoraAI V14.2
-                <span class="text-[11px] font-normal px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Free • No Login Needed</span>
-              </h2>
-              <p class="text-xs text-slate-400">Ask any math problem, coding question, or scientific explanation below:</p>
-            </div>
-          </div>
-          <div class="text-xs text-slate-400 mono">Model: <span class="text-emerald-400 font-semibold">V14.2 Standalone (15.68M)</span></div>
-        </div>
-
-        <!-- Chat Output Feed -->
-        <div id="homePlaygroundFeed" class="min-h-[160px] max-h-[380px] overflow-y-auto p-4 rounded-xl bg-slate-950/95 border border-slate-800 space-y-3 text-xs md:text-sm">
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>
-            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-200 leading-relaxed max-w-2xl">
-              <div class="font-semibold text-white mb-1">Welcome to NexoraAI V14.2!</div>
-              <div>Type a math equation, code problem, or question below, or click any of the quick sample buttons to test me instantly with zero setup.</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Sample Prompts -->
-        <div class="space-y-1.5">
-          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Quick Prompts (Click to Run):</div>
-          <div class="flex flex-wrap gap-2 text-xs">
-            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Solve 8x - 16 = 48">Solve 8x - 16 = 48</button>
-            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="What is 15 * 24 + 10?">What is 15 * 24 + 10?</button>
-            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Why does the sky appear blue?">Why does the sky appear blue?</button>
-            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Write a Python Fibonacci function">Write Python Fibonacci</button>
-            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Who created NexoraAI?">Who created you?</button>
-          </div>
-        </div>
-
-        <!-- Input Bar -->
-        <form id="homePlaygroundForm" class="flex gap-2">
-          <input id="homePlaygroundInput" type="text" placeholder="Type your question or math equation here..." class="flex-1 px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-xs md:text-sm focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 focus:outline-none" required />
-          <button id="homePlaygroundSubmitBtn" type="submit" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs md:text-sm transition flex items-center gap-2 shrink-0">
-            <span>Send</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </button>
-        </form>
-
-        <!-- 1-Click Local PC Launcher Instruction -->
-        <div class="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="text-emerald-400 font-semibold">💻 Run locally on your PC (100% Offline):</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-slate-400">Linux/Mac:</span>
-            <code class="px-2 py-0.5 rounded bg-slate-950 text-emerald-300 border border-slate-800 mono">./start_nexora_linux_mac.sh</code>
-            <span class="text-slate-500">|</span>
-            <span class="text-slate-400">Windows:</span>
-            <code class="px-2 py-0.5 rounded bg-slate-950 text-indigo-300 border border-slate-800 mono">START_NEXORA_WINDOWS.bat</code>
-          </div>
-        </div>
-      </div>
-
-      <!-- Three Mandatory Pre-Launch Governance Pillars -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="glass-panel rounded-xl p-5 border-l-4 border-amber-400">
-          <div class="text-xs font-semibold uppercase tracking-wider text-amber-300">1. IP Audit &amp; Quarantine</div>
-          <h3 class="text-sm font-bold text-white mt-1">Strict Model Separation Enforced</h3>
-          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-            The Native NexoraAI V14.2 checkpoint (<span class="mono">15.68M</span> params) is strictly separated from the 24-layer Qwen-compatible LoRA adapter (<span class="mono">8.80M</span> params). The Qwen adapter is <strong>quarantined from commercial distribution</strong> until base-model and dataset IP obligations are cleared by legal counsel.
+          <p class="text-xs md:text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
+            Proprietary neuro-symbolic AI by <strong>Pratik Parth</strong>. Powered by 15.68M native neural parameters with deterministic SymPy math verification. Zero accounts needed.
           </p>
         </div>
-        <div class="glass-panel rounded-xl p-5 border-l-4 border-indigo-400">
-          <div class="text-xs font-semibold uppercase tracking-wider text-indigo-300">2. Legal &amp; Payment Setup Gate</div>
-          <h3 class="text-sm font-bold text-white mt-1">Configurable Pricing • Disabled Checkout Gate</h3>
-          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-            No pricing is fabricated. All 5 commercial editions use administrator-configurable pricing plans, and live payment processing defaults to <span class="mono text-amber-300">DISABLED</span> until merchant onboarding is completed by an eligible legal representative.
-          </p>
-        </div>
-        <div class="glass-panel rounded-xl p-5 border-l-4 border-emerald-400">
-          <div class="text-xs font-semibold uppercase tracking-wider text-emerald-300">3. Verified Security Controls</div>
-          <h3 class="text-sm font-bold text-white mt-1">Server-Signed Entitlements &amp; RBAC</h3>
-          <p class="text-xs text-slate-300 mt-2 leading-relaxed">
-            Private signing keys never leave the licensing server. Desktop offline leases are device-bound and verified via public digests, single-use download tokens prevent link sharing, and client-side payment assertions are rejected.
-          </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- VIEW 2: PRODUCT EDITIONS -->
-    <section id="view-product" class="page-view hidden space-y-8">
-      <div>
-        <h2 class="text-2xl font-bold text-white">NexoraAI V14.2 Commercial Product Editions</h2>
-        <p class="text-xs text-slate-400 mt-1">Five distinct licensing tiers engineered for individual workstations, software teams, enterprise deployments, and self-hosted API gateways.</p>
-      </div>
-      <div id="productEditionsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
-    </section>
-
-    <!-- VIEW 3: FEATURES & INTERACTIVE DESKTOP / MEMORY SIMULATOR -->
-    <section id="view-features" class="page-view hidden space-y-8">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Product Capabilities &amp; Interactive Desktop Preview</h2>
-        <p class="text-xs text-slate-400 mt-1">Test the Native V14.2 Neuro-Symbolic Engine, SymPy Verifier, and Typo-Tolerant Semantic Memory 2.2 directly in the interactive workbench below.</p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 glass-panel rounded-xl p-6 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div>
-              <h3 class="text-sm font-bold text-white">NexoraAI V14.2 Native Desktop Workbench Preview</h3>
-              <p class="text-[11px] text-slate-400">Simulates `commercial_platform/desktop/nexora_desktop_app.py` with local SQLite history &amp; offline lease verification</p>
+        <!-- 4 Instant Starter Prompt Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto pt-4 text-left">
+          <button type="button" class="prompt-card p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-850 transition group" data-prompt="Solve 8x - 16 = 48">
+            <div class="text-xs font-semibold text-emerald-400 mb-1 flex items-center justify-between">
+              <span>🔢 Math &amp; Algebra Solver</span>
+              <span class="opacity-0 group-hover:opacity-100 transition text-emerald-300">→</span>
             </div>
-            <span id="desktopLeaseBadge" class="px-2.5 py-1 rounded text-[11px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 mono">LEASE VERIFIED: PROFESSIONAL</span>
-          </div>
-
-          <div class="flex flex-wrap gap-2">
-            <button type="button" data-sample-query="Solve 6x - 18 = 30" class="sample-q-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">Math: Solve 6x - 18 = 30</button>
-            <button type="button" data-sample-query="Explan why teh skyy appears blu due to raylegh scatering" class="sample-q-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">Typo Memory 2.2: Raylegh Scatering</button>
-            <button type="button" data-sample-query="Explain the CAP theorem in distributed systems." class="sample-q-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">Systems: CAP Theorem</button>
-            <button type="button" data-sample-query="What is the traditional recipe for Martian chocolate soup on Tuesday?" class="sample-q-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700">Irrelevant OOV Guard Test</button>
-          </div>
-
-          <div class="flex gap-2">
-            <input id="workbenchPromptInput" type="text" value="Explan why teh skyy appears blu due to raylegh scatering" class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500" placeholder="Enter math equation, technical question, or typo test..." />
-            <button id="runWorkbenchQueryBtn" type="button" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs">Execute Local V14.2</button>
-          </div>
-
-          <div id="workbenchOutputBox" class="p-4 rounded-lg bg-slate-950 border border-slate-800 space-y-2 text-xs"></div>
-        </div>
-
-        <div class="glass-panel rounded-xl p-6 space-y-4">
-          <h3 class="text-sm font-bold text-white border-b border-slate-800 pb-3">Desktop Generation Controls</h3>
-          <div class="space-y-3 text-xs">
-            <div>
-              <div class="flex justify-between text-slate-300"><span>Temperature</span><span id="lblTemp" class="mono">0.70</span></div>
-              <input id="ctrlTemp" type="range" min="0" max="1.5" step="0.05" value="0.70" class="w-full accent-emerald-500 mt-1" />
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300"><span>Top-K Sampling</span><span id="lblTopK" class="mono">40</span></div>
-              <input id="ctrlTopK" type="range" min="1" max="100" step="1" value="40" class="w-full accent-emerald-500 mt-1" />
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300"><span>Max New Tokens</span><span id="lblMaxTok" class="mono">64</span></div>
-              <input id="ctrlMaxTok" type="range" min="8" max="128" step="8" value="64" class="w-full accent-emerald-500 mt-1" />
-            </div>
-            <label class="flex items-center justify-between pt-2 text-slate-300 cursor-pointer">
-              <span>Autoregressive KV-Cache (`KVCache`)</span>
-              <input id="ctrlKvCache" type="checkbox" checked class="accent-emerald-500" />
-            </label>
-            <label class="flex items-center justify-between text-slate-300 cursor-pointer">
-              <span>SymPy &amp; Code Sandbox Verifier</span>
-              <input id="ctrlTools" type="checkbox" checked class="accent-emerald-500" />
-            </label>
-            <label class="flex items-center justify-between text-slate-300 cursor-pointer">
-              <span>Semantic Memory 2.2 (Typo-Tolerant)</span>
-              <input id="ctrlMemory" type="checkbox" checked class="accent-emerald-500" />
-            </label>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 4: TECHNOLOGY & STRICT ARCHITECTURE SEPARATION -->
-    <section id="view-technology" class="page-view hidden space-y-8">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Architecture Separation &amp; Weight Protection Engineering</h2>
-        <p class="text-xs text-slate-400 mt-1">Strict separation between the commercially authorized Native V14.2 model and the quarantined Qwen2.5-0.5B LoRA adapter.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="glass-panel rounded-xl p-6 border-t-4 border-emerald-500 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Configuration A — Commercial Native Model</span>
-            <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[11px] mono">AUTHORIZED</span>
-          </div>
-          <h3 class="text-lg font-bold text-white">Native NexoraAI V14.2 (`NexoraCausalMoETransformer_V14`)</h3>
-          <ul class="text-xs text-slate-300 space-y-1.5 leading-relaxed">
-            <li>• <strong>Exact Parameter Count:</strong> <span class="mono text-white">15,684,488</span> trainable parameters across <span class="mono text-white">39</span> FP32 tensors (<span class="mono">62,741,608</span> bytes)</li>
-            <li>• <strong>SHA-256 Checksum:</strong> <span class="mono text-[11px] text-emerald-300 break-all">d285ab0e4e24916f27a7d7ec4b846c6a5bbc00e6f92d455f02083f851c073e56</span></li>
-            <li>• <strong>Hidden Dimension &amp; Heads:</strong> <span class="mono">d_model = 384</span> (<span class="mono">6</span> RoPE causal attention heads × <span class="mono">64</span> head_dim)</li>
-            <li>• <strong>Sparse Mixture-of-Experts:</strong> <span class="mono">8</span> SwiGLU experts (<span class="mono">dim_ff = 768</span>, <span class="mono">0</span> dead experts)</li>
-            <li>• <strong>External Base Model Required:</strong> <strong>None</strong> (100% standalone native execution)</li>
-          </ul>
-        </div>
-
-        <div class="glass-panel rounded-xl p-6 border-t-4 border-amber-500 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Configuration B — Quarantined Adapter</span>
-            <span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 text-[11px] mono">IP QUARANTINED</span>
-          </div>
-          <h3 class="text-lg font-bold text-white">Qwen-Compatible LoRA (`PeftModelForCausalLM`)</h3>
-          <ul class="text-xs text-slate-300 space-y-1.5 leading-relaxed">
-            <li>• <strong>Exact Adapter Parameters:</strong> <span class="mono text-white">8,798,208</span> parameters across <span class="mono text-white">336</span> FP32 tensors (<span class="mono">24</span> layers × <span class="mono">7</span> modules × <span class="mono">2</span>)</li>
-            <li>• <strong>SHA-256 Checksum:</strong> <span class="mono text-[11px] text-amber-300 break-all">6f17e0278e2857a0a8e9757583b91f2014a605bcaf3c8f2eae6fdc39642e77a8</span></li>
-            <li>• <strong>Target Base Dimensions:</strong> <span class="mono">24</span> layers, <span class="mono">d_model = 896</span>, <span class="mono">kv_dim = 128</span>, <span class="mono">d_ff = 4864</span>, <span class="mono">r = 16</span></li>
-            <li>• <strong>Required Base Model:</strong> Frozen `Qwen/Qwen2.5-0.5B-Instruct` (<span class="mono">494,032,768</span> parameters, Apache-2.0)</li>
-            <li>• <strong>Commercial Distribution Status:</strong> <strong>Blocked by DistributionService</strong> until counsel reviews base-model &amp; dataset obligations.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="glass-panel rounded-xl p-6 space-y-2">
-        <h3 class="text-sm font-bold text-white">Realistic Local Model Weight Protection Limitations (Section 5 Engineering Disclosure)</h3>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Because local desktop inference executes on the customer's CPU and RAM, no software vendor can make locally stored model weights mathematically impossible to extract against a physical hardware owner with kernel or debugger (`ptrace`/`gdb`) privileges. Instead of making false DRM claims, NexoraAI V14.2 implements layered commercial controls: (1) <strong>Authenticated Single-Use Download Tokens</strong> with 15-minute expiry, (2) <strong>Device-Bound Activation Leases</strong> verified via public digests, (3) <strong>Contractual EULA Anti-Redistribution Enforcement</strong>, and (4) the <strong>API Edition</strong> for deployments where model weights must remain exclusively on vendor-controlled servers.
-        </p>
-      </div>
-    </section>
-
-    <!-- VIEW 5: VERIFIED PERFORMANCE BENCHMARKS -->
-    <section id="view-performance" class="page-view hidden space-y-8">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Verified Performance &amp; 525-Query Evaluation Evidence</h2>
-        <p class="text-xs text-slate-400 mt-1">All metrics are measured on 2x Intel(R) Xeon(R) Platinum 8481C vCPUs with zero fabricated claims. Physical NVIDIA GPU execution is transparently marked <span class="mono text-amber-300">NOT TESTED</span> on the CPU build VM.</p>
-      </div>
-
-      <div class="glass-panel rounded-xl p-6 overflow-x-auto">
-        <h3 class="text-sm font-bold text-white mb-3">1. Multi-Length Autoregressive KV-Cache Benchmark (3 Warm-ups Excluded + 9 Timed Trials/Cell)</h3>
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="border-b border-slate-800 text-slate-400">
-              <th class="py-2 pr-4">Output Tokens (`L`)</th>
-              <th class="py-2 pr-4">Exact Token Count</th>
-              <th class="py-2 pr-4">Prefill `t=0` `P50` (`%` Total)</th>
-              <th class="py-2 pr-4">Per-Step Decode `t&gt;0` (`Pure Decode`)</th>
-              <th class="py-2 pr-4">Total Latency `P50` (`P95`) [`KV=ON`]</th>
-              <th class="py-2 pr-4">E2E Throughput `P50` [`KV=ON`]</th>
-              <th class="py-2 pr-4">E2E Throughput `P50` [`KV=OFF`]</th>
-              <th class="py-2">Median Speedup</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800/60 mono">
-            <tr><td class="py-2 pr-4">8</td><td class="py-2 pr-4 text-emerald-400">True (9/9)</td><td class="py-2 pr-4">12.27 ms (45.0%)</td><td class="py-2 pr-4">2.20 ms/tok (455.05 tok/s)</td><td class="py-2 pr-4">27.28 ms (30.16 ms)</td><td class="py-2 pr-4 font-bold text-white">293.29 tok/s</td><td class="py-2 pr-4 text-slate-400">77.83 tok/s</td><td class="py-2 text-emerald-400 font-bold">3.77x</td></tr>
-            <tr><td class="py-2 pr-4">16</td><td class="py-2 pr-4 text-emerald-400">True (9/9)</td><td class="py-2 pr-4">12.31 ms (27.8%)</td><td class="py-2 pr-4">2.13 ms/tok (470.07 tok/s)</td><td class="py-2 pr-4">44.37 ms (47.59 ms)</td><td class="py-2 pr-4 font-bold text-white">360.60 tok/s</td><td class="py-2 pr-4 text-slate-400">80.20 tok/s</td><td class="py-2 text-emerald-400 font-bold">4.50x</td></tr>
-            <tr><td class="py-2 pr-4">32</td><td class="py-2 pr-4 text-emerald-400">True (9/9)</td><td class="py-2 pr-4">14.84 ms (18.7%)</td><td class="py-2 pr-4">2.09 ms/tok (479.24 tok/s)</td><td class="py-2 pr-4">79.41 ms (83.06 ms)</td><td class="py-2 pr-4 font-bold text-white">402.99 tok/s</td><td class="py-2 pr-4 text-slate-400">74.12 tok/s</td><td class="py-2 text-emerald-400 font-bold">5.44x</td></tr>
-            <tr><td class="py-2 pr-4">64</td><td class="py-2 pr-4 text-emerald-400">True (9/9)</td><td class="py-2 pr-4">15.32 ms (10.2%)</td><td class="py-2 pr-4">2.12 ms/tok (472.26 tok/s)</td><td class="py-2 pr-4">150.09 ms (152.69 ms)</td><td class="py-2 pr-4 font-bold text-white">426.42 tok/s</td><td class="py-2 pr-4 text-slate-400">64.22 tok/s</td><td class="py-2 text-emerald-400 font-bold">6.64x</td></tr>
-            <tr><td class="py-2 pr-4">128</td><td class="py-2 pr-4 text-emerald-400">True (9/9)</td><td class="py-2 pr-4">15.01 ms (5.3%)</td><td class="py-2 pr-4">2.11 ms/tok (473.01 tok/s)</td><td class="py-2 pr-4">285.29 ms (286.51 ms)</td><td class="py-2 pr-4 font-bold text-white">448.66 tok/s</td><td class="py-2 pr-4 text-slate-400">49.27 tok/s</td><td class="py-2 text-emerald-400 font-bold">9.11x</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="glass-panel rounded-xl p-6 overflow-x-auto">
-        <h3 class="text-sm font-bold text-white mb-3">2. 525-Query Zero-Leakage Semantic Memory Evaluation (`0.00%` Training Prompt Overlap)</h3>
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="border-b border-slate-800 text-slate-400">
-              <th class="py-2 pr-4">Retriever Version</th>
-              <th class="py-2 pr-4">Precision</th>
-              <th class="py-2 pr-4">Recall (`TP / 350`)</th>
-              <th class="py-2 pr-4">F1 Score</th>
-              <th class="py-2 pr-4">Typo Recall (`75`)</th>
-              <th class="py-2 pr-4">Long Query Recall (`50`)</th>
-              <th class="py-2 pr-4">Irrelevant FPR (`125`)</th>
-              <th class="py-2">Calibration (`ECE`)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-800/60 mono">
-            <tr><td class="py-2 pr-4">V14.0 (`min_score = 0.20`)</td><td class="py-2 pr-4">96.43%</td><td class="py-2 pr-4">15.43% (54/350)</td><td class="py-2 pr-4">26.60%</td><td class="py-2 pr-4">5.33%</td><td class="py-2 pr-4">10.00%</td><td class="py-2 pr-4">1.60% (2/125)</td><td class="py-2">0.6664</td></tr>
-            <tr><td class="py-2 pr-4">V14.0 (`min_score = 0.12`)</td><td class="py-2 pr-4">82.68%</td><td class="py-2 pr-4">60.00% (210/350)</td><td class="py-2 pr-4">69.54%</td><td class="py-2 pr-4">56.00%</td><td class="py-2 pr-4">46.00%</td><td class="py-2 pr-4 text-rose-400">35.20% (44/125)</td><td class="py-2">0.5630</td></tr>
-            <tr><td class="py-2 pr-4">V14.1 `SemanticMemory 2.0` (`0.26`)</td><td class="py-2 pr-4">96.02%</td><td class="py-2 pr-4">62.00% (217/350)</td><td class="py-2 pr-4">75.35%</td><td class="py-2 pr-4">14.67%</td><td class="py-2 pr-4">74.00%</td><td class="py-2 pr-4">7.20% (9/125)</td><td class="py-2">0.3890</td></tr>
-            <tr class="bg-emerald-950/20"><td class="py-2 pr-4 font-bold text-emerald-300">V14.2 `SemanticMemory 2.2` (`0.25`)</td><td class="py-2 pr-4 font-bold text-white">99.04%</td><td class="py-2 pr-4 font-bold text-white">88.29% (309/350)</td><td class="py-2 pr-4 font-bold text-emerald-400">93.35%</td><td class="py-2 pr-4 font-bold text-emerald-300">80.00%</td><td class="py-2 pr-4 font-bold text-emerald-300">98.00%</td><td class="py-2 pr-4 font-bold text-emerald-400">2.40% (3/125)</td><td class="py-2 font-bold text-emerald-300">0.1149</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- VIEW 6: CONFIGURABLE PRICING -->
-    <section id="view-pricing" class="page-view hidden space-y-8">
-      <div class="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 class="text-2xl font-bold text-white">Commercial Licensing &amp; Configurable Pricing Plans</h2>
-          <p class="text-xs text-slate-400 mt-1">No prices are fabricated. Plans default to unconfigured until set by an authorized administrator in the Admin Console.</p>
-        </div>
-        <div id="paymentGateBadgePricing" class="px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs mono">
-          Payment Gateway: DISABLED (Pending Legal Onboarding)
-        </div>
-      </div>
-
-      <div id="pricingCardsContainer" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
-    </section>
-
-    <!-- VIEW 7: DOCUMENTATION -->
-    <section id="view-documentation" class="page-view hidden space-y-6">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Technical &amp; Developer Documentation</h2>
-        <p class="text-xs text-slate-400 mt-1">Complete reference for the REST Licensing API, Desktop CLI/GUI, Database Schema, and Offline Lease Verification Protocol.</p>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="glass-panel rounded-xl p-5 space-y-3">
-          <h3 class="text-sm font-bold text-white">1. Offline Activation Public-Digest Protocol</h3>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            The desktop client never embeds `NEXORA_LICENSE_PRIVATE_KEY`. Upon activation, the server issues a signed lease containing `server_signature_prefix` and `public_verifier_digest = SHA256(PUBLIC_SALT || license_id || edition || device_fingerprint || expires_at || sig_prefix)`. If a user edits `edition_code` or copies the lease to another machine (`device_fingerprint`), the digest check fails immediately.
-          </p>
-          <pre class="p-3 rounded bg-slate-950 border border-slate-800 text-[11px] mono text-emerald-300 overflow-x-auto">python3 commercial_platform/desktop/nexora_desktop_app.py --self-test
-python3 commercial_platform/tests/run_commercial_security_and_ip_suite.py</pre>
-        </div>
-        <div class="glass-panel rounded-xl p-5 space-y-3">
-          <h3 class="text-sm font-bold text-white">2. REST API Endpoints (`commercial_platform/api/app_server.py`)</h3>
-          <ul class="text-xs text-slate-300 space-y-1.5 mono">
-            <li>POST /api/v1/auth/register &amp; /api/v1/auth/login</li>
-            <li>POST /api/v1/licenses/activate &amp; /api/v1/licenses/verify</li>
-            <li>POST /api/v1/downloads/authorize &amp; /api/v1/downloads/consume</li>
-            <li>POST /api/v1/payments/checkout &amp; /api/v1/payments/webhook</li>
-            <li>GET  /api/v1/customer/dashboard &amp; POST /api/v1/customer/support</li>
-            <li>POST /api/v1/admin/pricing &amp; /api/v1/admin/licenses/issue [RBAC: admin]</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 8: CONTROLLED DOWNLOADS -->
-    <section id="view-downloads" class="page-view hidden space-y-6">
-      <div>
-        <h2 class="text-2xl font-bold text-white">Authenticated Software &amp; Model Distribution Center</h2>
-        <p class="text-xs text-slate-400 mt-1">Requires an active license and generates a single-use, 15-minute HMAC-signed download token with SHA-256 package verification.</p>
-      </div>
-      <div id="releasesListContainer" class="space-y-4"></div>
-    </section>
-
-    <!-- VIEW 9, 10, 11: LEGAL & IP CENTER (EULA, PRIVACY, TOS, AUP, REFUND, 3P NOTICES) -->
-    <section id="view-legal" class="page-view hidden space-y-6">
-      <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200">
-        <strong>[DRAFT — REQUIRES QUALIFIED LEGAL REVIEW BEFORE COMMERCIAL USE]</strong> All legal agreements, refund policies, and IP compliance disclosures below are engineering drafts prepared for review by qualified legal counsel prior to commercial launch.
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <button type="button" data-legal-tab="eula" class="legal-tab-btn px-3 py-1.5 rounded bg-emerald-500 text-slate-950 font-semibold text-xs">1. License Agreement (EULA)</button>
-        <button type="button" data-legal-tab="privacy" class="legal-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-200 text-xs">2. Privacy Policy</button>
-        <button type="button" data-legal-tab="tos" class="legal-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-200 text-xs">3. Terms of Service &amp; AUP</button>
-        <button type="button" data-legal-tab="notices" class="legal-tab-btn px-3 py-1.5 rounded bg-slate-800 text-slate-200 text-xs">4. IP Audit &amp; 3P Notices</button>
-      </div>
-      <div id="legalContentPanel" class="glass-panel rounded-xl p-6 text-xs text-slate-300 space-y-3 leading-relaxed"></div>
-    </section>
-
-    <!-- VIEW 12: CONTACT & SUPPORT -->
-    <section id="view-support" class="page-view hidden space-y-6">
-      <div class="max-w-2xl glass-panel rounded-xl p-6 space-y-4">
-        <h2 class="text-xl font-bold text-white">Customer &amp; Enterprise SLA Support</h2>
-        <p class="text-xs text-slate-400">Submit a technical or licensing inquiry. Tickets appear immediately in your Customer Dashboard and the Admin Support Queue.</p>
-        <div class="space-y-3 text-xs">
-          <div>
-            <label class="block text-slate-300 mb-1">Subject</label>
-            <input id="supSubject" type="text" value="Enterprise Offline Activation Lease Inquiry" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-slate-300 mb-1">Category</label>
-              <select id="supCategory" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">
-                <option value="Licensing & Activation">Licensing &amp; Activation</option>
-                <option value="Desktop Application">Desktop Application</option>
-                <option value="Enterprise SLA">Enterprise SLA</option>
-                <option value="Billing & Invoices">Billing &amp; Invoices</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-slate-300 mb-1">Priority</label>
-              <select id="supPriority" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">
-                <option value="NORMAL">NORMAL</option>
-                <option value="HIGH">HIGH</option>
-                <option value="ENTERPRISE_SLA">ENTERPRISE_SLA</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="block text-slate-300 mb-1">Message</label>
-            <textarea id="supMessage" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white">We need a 25-seat air-gapped Enterprise license lease for our Linux workstation cluster.</textarea>
-          </div>
-          <button id="submitSupportTicketBtn" type="button" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold">Submit Support Ticket</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 13: LOGIN & SESSION AUTHENTICATION -->
-    <section id="view-login" class="page-view hidden">
-      <div class="max-w-lg mx-auto glass-panel rounded-xl p-6 space-y-6">
-        <div>
-          <h2 class="text-xl font-bold text-white">Account Authentication &amp; Sessions</h2>
-          <p class="text-xs text-slate-400 mt-1">Backed by PBKDF2-HMAC-SHA256 (600,000 iterations), brute-force lockout, and cryptographic session verification.</p>
-        </div>
-
-        <!-- Auth Tabs: Sign In / Create Account -->
-        <div class="flex border-b border-slate-800 text-xs">
-          <button id="authTabSignInBtn" type="button" class="px-4 py-2 font-semibold border-b-2 border-emerald-400 text-emerald-300">Sign In</button>
-          <button id="authTabRegisterBtn" type="button" class="px-4 py-2 font-medium text-slate-400 hover:text-white border-b-2 border-transparent">Create Account</button>
-        </div>
-
-        <!-- Tab 1: Sign In -->
-        <div id="authSignInPane" class="space-y-4 text-xs">
-          <div>
-            <label class="block text-slate-300 mb-1">Email Address</label>
-            <input id="loginEmail" type="email" placeholder="user@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <div>
-            <label class="block text-slate-300 mb-1">Password</label>
-            <input id="loginPassword" type="password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <button id="loginSubmitBtn" type="button" class="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold transition">
-            Sign In with PBKDF2-HMAC-SHA256
+            <div class="text-xs text-slate-300">"Solve 8x - 16 = 48"</div>
           </button>
 
-          <div class="pt-3 border-t border-slate-800 space-y-2">
-            <span class="text-[11px] text-slate-400 block font-medium">Quick Demonstration Autofill:</span>
-            <div class="grid grid-cols-2 gap-2">
-              <button id="quickFillAdminBtn" type="button" class="px-3 py-1.5 rounded bg-indigo-950/70 border border-indigo-700/50 hover:bg-indigo-900/60 text-indigo-300 text-[11px] text-left">
-                <strong>Admin Console</strong><br><span class="opacity-80">admin@nexora.local</span>
-              </button>
-              <button id="quickFillCustomerBtn" type="button" class="px-3 py-1.5 rounded bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-300 text-[11px] text-left">
-                <strong>Customer Portal</strong><br><span class="opacity-80">customer@example.com</span>
-              </button>
+          <button type="button" class="prompt-card p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-850 transition group" data-prompt="What is 15 * 24 + 10?">
+            <div class="text-xs font-semibold text-emerald-400 mb-1 flex items-center justify-between">
+              <span>⚡ Fast Exact Arithmetic</span>
+              <span class="opacity-0 group-hover:opacity-100 transition text-emerald-300">→</span>
             </div>
-          </div>
-        </div>
+            <div class="text-xs text-slate-300">"What is 15 * 24 + 10?"</div>
+          </button>
 
-        <!-- Tab 2: Create Account -->
-        <div id="authRegisterPane" class="hidden space-y-4 text-xs">
-          <div>
-            <label class="block text-slate-300 mb-1">Full Name</label>
-            <input id="regName" type="text" placeholder="Dr. Jane Doe" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <div>
-            <label class="block text-slate-300 mb-1">Email Address</label>
-            <input id="regEmail" type="email" placeholder="jane@enterprise.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <div>
-            <label class="block text-slate-300 mb-1">Password</label>
-            <input id="regPassword" type="password" placeholder="Minimum 8 characters" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <div>
-            <label class="block text-slate-300 mb-1">Company / Organization (Optional)</label>
-            <input id="regCompany" type="text" placeholder="Quantum Labs Inc." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white" />
-          </div>
-          <button id="regSubmitBtn" type="button" class="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold transition">
-            Register Account (Role: customer)
+          <button type="button" class="prompt-card p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-850 transition group" data-prompt="Why does the sky appear blue?">
+            <div class="text-xs font-semibold text-emerald-400 mb-1 flex items-center justify-between">
+              <span>🌌 Science &amp; Physics</span>
+              <span class="opacity-0 group-hover:opacity-100 transition text-emerald-300">→</span>
+            </div>
+            <div class="text-xs text-slate-300">"Why does the sky appear blue?"</div>
+          </button>
+
+          <button type="button" class="prompt-card p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 hover:bg-slate-850 transition group" data-prompt="Write a Python Fibonacci function">
+            <div class="text-xs font-semibold text-emerald-400 mb-1 flex items-center justify-between">
+              <span>💻 Code Synthesis</span>
+              <span class="opacity-0 group-hover:opacity-100 transition text-emerald-300">→</span>
+            </div>
+            <div class="text-xs text-slate-300">"Write a Python Fibonacci function"</div>
           </button>
         </div>
-
-        <!-- Current Active Session Card -->
-        <div id="currentSessionCard" class="hidden p-4 rounded-lg bg-slate-900/80 border border-slate-800 text-xs space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-slate-400 font-semibold">Active Session:</span>
-            <span id="sessionRolePill" class="px-2 py-0.5 rounded text-[11px] mono uppercase"></span>
-          </div>
-          <div class="text-slate-200">
-            <div><strong>Email:</strong> <span id="sessionEmailSpan" class="mono"></span></div>
-            <div><strong>User ID:</strong> <span id="sessionUidSpan" class="mono text-[11px] text-slate-400"></span></div>
-          </div>
-          <div class="pt-2 flex gap-2">
-            <button id="sessionLogoutBtn" type="button" class="px-3 py-1.5 rounded bg-rose-950/70 hover:bg-rose-900 text-rose-200 border border-rose-800/50 font-medium">Log Out Session</button>
-            <button id="sessionGoDashboardBtn" type="button" class="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">Go to Dashboard</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- VIEW 14: CUSTOMER DASHBOARD -->
-    <section id="view-customer-dashboard" class="page-view hidden space-y-6">
-      <!-- Unauthenticated Alert -->
-      <div id="custAuthRequiredBox" class="hidden glass-panel rounded-xl p-8 border-l-4 border-amber-500 space-y-3">
-        <div class="text-xs font-bold uppercase tracking-wider text-amber-400 mono">AUTHENTICATION REQUIRED</div>
-        <h2 class="text-xl font-bold text-white">Sign In to Access Customer Dashboard</h2>
-        <p class="text-xs text-slate-300">You must be authenticated with a customer or administrator account to manage licenses, register devices, and view support tickets.</p>
-        <button id="custGoLoginBtn" type="button" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs">Sign In Now</button>
       </div>
 
-      <!-- Main Customer Content -->
-      <div id="custDashboardContent" class="space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h2 class="text-2xl font-bold text-white">Customer License &amp; Device Dashboard</h2>
-            <p class="text-xs text-slate-400">Manage active licenses, register or deactivate devices, generate single-use download tokens, and view verified invoices.</p>
-          </div>
-          <button id="testSpoofPaymentBtn" type="button" class="px-3 py-1.5 rounded-lg bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-700/60 text-xs font-medium">
-            Security Test: Attempt Client-Side Payment Spoof
-          </button>
-        </div>
+    </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 space-y-5">
-            <!-- Active Licenses List -->
-            <div class="glass-panel rounded-xl p-5 space-y-3">
-              <div class="flex items-center justify-between">
-                <h3 class="text-sm font-bold text-white">Active Licenses (`licenses`)</h3>
-                <span id="custLicenseCountBadge" class="text-[11px] text-slate-400 mono"></span>
-              </div>
-              <div id="custLicensesList" class="space-y-3"></div>
-            </div>
-
-            <!-- Registered Devices & Device Activation Form -->
-            <div class="glass-panel rounded-xl p-5 space-y-3">
-              <div class="flex items-center justify-between">
-                <h3 class="text-sm font-bold text-white">Registered Devices (`device_activations`)</h3>
-                <span class="text-[11px] text-slate-400">Enforces per-edition seat limits</span>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                <input id="newDevFpInput" type="text" placeholder="Device Fingerprint (e.g. FP-LINUX-WS-02)" value="FP-LINUX-WS-02" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white mono" />
-                <input id="newDevNameInput" type="text" placeholder="Workstation Name" value="Primary Dev Workstation" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white" />
-                <button id="activateNewDeviceBtn" type="button" class="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs">Activate Device on Selected License</button>
-              </div>
-              <div id="custDevicesList" class="space-y-2 pt-2"></div>
-            </div>
-          </div>
-
-          <div class="space-y-5">
-            <!-- Profile & Privacy Controls -->
-            <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-              <h3 class="text-sm font-bold text-white">Account Profile &amp; Privacy Controls</h3>
-              <div class="text-slate-300 space-y-1.5">
-                <div><strong>Email:</strong> <span id="custProfileEmail" class="mono text-white"></span></div>
-                <div><strong>Current Name:</strong> <span id="custProfileName" class="text-white"></span></div>
-                <div class="flex gap-2 pt-1">
-                  <input id="custNewNameInput" type="text" placeholder="Update Full Name" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white flex-1" />
-                  <button id="custUpdateNameBtn" type="button" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">Update</button>
-                </div>
-                <div class="pt-2 text-emerald-400 font-semibold">Prompt/Chat Collection: NEVER COLLECTED (Enforced in Code)</div>
-              </div>
-              <label class="flex items-center justify-between pt-2 border-t border-slate-800 text-slate-300 cursor-pointer">
-                <span>Opt-in to Anonymous Install Telemetry</span>
-                <input id="custAnalyticsOptIn" type="checkbox" checked class="accent-emerald-500" />
-              </label>
-            </div>
-
-            <!-- Support Tickets & Creation Form -->
-            <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-              <h3 class="text-sm font-bold text-white">Orders &amp; Support Tickets</h3>
-              <div id="custInvoicesAndTickets" class="space-y-2"></div>
-              <div class="pt-3 border-t border-slate-800 space-y-2">
-                <span class="font-semibold text-white block">Open New Support Ticket:</span>
-                <input id="custTicketSubj" type="text" placeholder="Ticket Subject" class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white" />
-                <textarea id="custTicketMsg" rows="2" placeholder="Describe the licensing or desktop issue..." class="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-xs text-white"></textarea>
-                <div class="flex gap-2">
-                  <select id="custTicketPrio" class="bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-white">
-                    <option value="NORMAL">NORMAL</option>
-                    <option value="HIGH">HIGH</option>
-                    <option value="ENTERPRISE_SLA">ENTERPRISE_SLA</option>
-                  </select>
-                  <button id="custSubmitTicketBtn" type="button" class="px-3 py-1 rounded bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold flex-1">Submit Ticket</button>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- SPONSOR & AD BANNER SLOT (MONETIZATION CONTAINER) -->
+    <div id="adSlotBanner" class="w-full my-2 p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex flex-col items-center justify-center text-center">
+      <div class="w-full flex items-center justify-between px-2 text-[10px] text-slate-500 font-mono pb-1 border-b border-slate-900">
+        <span>SPONSORED / ADVERTISEMENT</span>
+        <span>ADS REVENUE MONETIZED</span>
+      </div>
+      <!-- Network Banner Insertion Slot -->
+      <div id="adBannerContent" class="w-full min-h-[50px] flex items-center justify-center text-xs text-slate-400 pt-1">
+        <div class="text-center py-1">
+          <span class="text-slate-500 text-xs font-mono">NexoraAI V14.2 Ad Space Ready</span>
+          <span class="block text-[11px] text-slate-600">Adsterra / Network banners display here automatically.</span>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- VIEW 15: PRIVATE ADMIN DASHBOARD (RBAC PROTECTED) -->
-    <section id="view-admin-dashboard" class="page-view hidden space-y-6">
-      <div id="adminRbacDeniedBox" class="hidden glass-panel rounded-xl p-8 border-l-4 border-rose-500 space-y-4">
-        <div class="text-xs font-bold uppercase tracking-wider text-rose-400 mono">HTTP 403 FORBIDDEN — RBAC_VIOLATION LOGGED</div>
-        <h2 class="text-xl font-bold text-white">Administrative Access Denied</h2>
-        <p id="adminRbacDeniedMsg" class="text-xs text-slate-300 leading-relaxed">
-          The backend rejected access to <span class="mono text-amber-300">/api/v1/admin/*</span>. Access is strictly restricted to authenticated administrators.
-        </p>
-        <button id="elevateToAdminDemoBtn" type="button" class="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white font-semibold text-xs">Authenticate as Administrator (`admin@nexora.local`)</button>
+    <!-- Sticky Bottom Chat Input Bar -->
+    <div class="sticky bottom-2 bg-slate-950/95 backdrop-blur p-2 rounded-2xl border border-slate-800 shadow-2xl">
+      <form id="chatForm" class="flex items-center gap-2">
+        <input
+          id="chatInput"
+          type="text"
+          placeholder="Ask NexoraAI anything (math problem, question, code task)..."
+          class="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none"
+          autocomplete="off"
+          required
+        />
+        <button
+          id="sendBtn"
+          type="submit"
+          class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs md:text-sm transition flex items-center gap-1.5 shrink-0 shadow-lg shadow-emerald-500/20"
+        >
+          <span>Ask</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </form>
+      <div class="px-3 pt-1.5 pb-0.5 flex flex-wrap items-center justify-between text-[11px] text-slate-500 font-mono">
+        <span>100% Free • No Sign-In Required</span>
+        <span>NexoraAI V14.2 Sovereign Engine</span>
       </div>
-
-      <div id="adminConsoleContent" class="hidden space-y-6">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h2 class="text-2xl font-bold text-white">Private Administrator Console (`role = admin`)</h2>
-            <p class="text-xs text-slate-400">Real-time system health, customer accounts, license lifecycle, device deactivation, and immutable security audit logs.</p>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <button id="admBackupBtn" type="button" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium">
-              Create Database Backup
-            </button>
-            <button id="togglePaymentOnboardingBtn" type="button" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40 text-xs font-medium">
-              Toggle Payment Onboarding Gate
-            </button>
-            <button id="simulateSignedWebhookBtn" type="button" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-500/40 text-xs font-medium">
-              Simulate Signed Webhook (`payment.succeeded`)
-            </button>
-          </div>
-        </div>
-
-        <!-- KPI Metrics & System Monitoring Row -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="glass-panel rounded-xl p-4 space-y-1">
-            <div class="text-[11px] text-slate-400">Total Customers</div>
-            <div id="kpiCustomers" class="text-2xl font-bold text-white mono">-</div>
-          </div>
-          <div class="glass-panel rounded-xl p-4 space-y-1">
-            <div class="text-[11px] text-slate-400">Active Licenses</div>
-            <div id="kpiLicenses" class="text-2xl font-bold text-emerald-400 mono">-</div>
-          </div>
-          <div class="glass-panel rounded-xl p-4 space-y-1">
-            <div class="text-[11px] text-slate-400">Active Devices</div>
-            <div id="kpiDevices" class="text-2xl font-bold text-indigo-400 mono">-</div>
-          </div>
-          <div class="glass-panel rounded-xl p-4 space-y-1">
-            <div class="text-[11px] text-slate-400">System Status</div>
-            <div id="kpiSystemStatus" class="text-lg font-bold text-emerald-400 mono">HEALTHY</div>
-          </div>
-        </div>
-
-        <!-- System Health & Checkpoint Verification Probe -->
-        <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">System Health &amp; Readiness Probe (`GET /api/v1/health` &amp; `/api/v1/admin/monitoring`)</h3>
-            <button id="refreshMonitoringBtn" type="button" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px]">Refresh Probe</button>
-          </div>
-          <div id="admHealthProbeDetails" class="grid grid-cols-1 md:grid-cols-3 gap-3 mono text-[11px] pt-1"></div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Configurable Pricing Manager -->
-          <div class="glass-panel rounded-xl p-5 space-y-4 text-xs">
-            <h3 class="text-sm font-bold text-white">1. Configurable Edition Pricing Manager (`POST /api/v1/admin/pricing`)</h3>
-            <div class="grid grid-cols-3 gap-2">
-              <select id="admEditionSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white">
-                <option value="personal">personal</option>
-                <option value="professional" selected>professional</option>
-                <option value="developer">developer</option>
-                <option value="enterprise">enterprise</option>
-                <option value="api">api</option>
-              </select>
-              <input id="admPriceInput" type="number" placeholder="Price in USD (e.g. 199)" value="199" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white mono" />
-              <button id="admSavePriceBtn" type="button" class="px-3 py-1.5 rounded bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold">Set Edition Price</button>
-            </div>
-            <div id="admPricingSummary" class="space-y-1.5 pt-2 border-t border-slate-800"></div>
-          </div>
-
-          <!-- License Issuance & Revocation -->
-          <div class="glass-panel rounded-xl p-5 space-y-4 text-xs">
-            <h3 class="text-sm font-bold text-white">2. License Issuance &amp; Lifecycle (`POST /api/v1/admin/licenses/*`)</h3>
-            <div class="flex flex-wrap gap-2">
-              <select id="admIssueEditionSelect" class="bg-slate-900 border border-slate-700 rounded px-2.5 py-1.5 text-white">
-                <option value="personal">Personal (1 dev)</option>
-                <option value="professional">Professional (2 dev)</option>
-                <option value="developer" selected>Developer (3 dev)</option>
-                <option value="enterprise">Enterprise (25 dev)</option>
-                <option value="api">API Edition (5 dev)</option>
-              </select>
-              <button id="admIssueLicenseBtn" type="button" class="px-3 py-1.5 rounded bg-indigo-500 hover:bg-indigo-400 text-white font-semibold">Issue New Signed License</button>
-            </div>
-            <div id="admLicensesTable" class="space-y-2 pt-2 border-t border-slate-800 max-h-56 overflow-y-auto"></div>
-          </div>
-        </div>
-
-        <!-- Customer Accounts Management & Devices Management -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-            <h3 class="text-sm font-bold text-white">3. Customer Account Management (`GET /api/v1/admin/customers`)</h3>
-            <div id="admCustomersTable" class="space-y-2 max-h-56 overflow-y-auto"></div>
-          </div>
-
-          <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-            <h3 class="text-sm font-bold text-white">4. Registered Devices Management (`GET /api/v1/admin/devices`)</h3>
-            <div id="admDevicesTable" class="space-y-2 max-h-56 overflow-y-auto"></div>
-          </div>
-        </div>
-
-        <!-- Support Ticket Queue -->
-        <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-          <h3 class="text-sm font-bold text-white">5. Customer Support Tickets Queue (`GET /api/v1/admin/support/tickets`)</h3>
-          <div id="admTicketsTable" class="space-y-2 max-h-56 overflow-y-auto"></div>
-        </div>
-
-        <!-- Audit Logs -->
-        <div class="glass-panel rounded-xl p-5 space-y-3 text-xs">
-          <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white">6. Immutable Security &amp; Entitlement Audit Logs (`audit_logs`)</h3>
-            <span class="text-emerald-400 mono">Prompt/Chat Telemetry Collected: 0 bytes</span>
-          </div>
-          <div id="admAuditLogList" class="space-y-1.5 font-mono text-[11px] max-h-60 overflow-y-auto"></div>
-        </div>
-      </div>
-    </section>
+    </div>
 
   </main>
 
-  <footer class="border-t border-slate-800/80 bg-slate-950 py-6 px-4 text-xs text-slate-400 mt-12">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-      <div>
-        <strong class="text-slate-200">NexoraAI V14.2 Commercial Software Platform</strong> • Created by Pratik Parth • Model Checkpoints Preserved Byte-for-Byte
+  <!-- OFFLINE PC RUN POPUP MODAL -->
+  <div id="offlineModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono">PC</div>
+          <h3 class="font-bold text-white text-base">Run NexoraAI 100% Offline on PC</h3>
+        </div>
+        <button id="closeOfflineModalBtn" type="button" class="text-slate-400 hover:text-white font-bold text-lg">✕</button>
       </div>
-      <div class="flex gap-4">
-        <button type="button" data-nav="legal" class="nav-btn hover:text-white">EULA &amp; Legal Drafts</button>
-        <button type="button" data-nav="technology" class="nav-btn hover:text-white">IP Quarantine Status</button>
-        <button type="button" data-nav="documentation" class="nav-btn hover:text-white">API &amp; Security Docs</button>
+
+      <p class="text-xs text-slate-300 leading-relaxed">
+        You can run the entire 15.68M parameter NexoraAI neural engine completely offline on your computer with <strong>zero internet connection</strong>.
+      </p>
+
+      <div class="space-y-3">
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+          <div class="text-emerald-400 font-semibold">Linux &amp; macOS (1 Command):</div>
+          <pre><code>cd NexoraAI_V14_2_All_In_One_Complete
+./start_nexora_linux_mac.sh</code></pre>
+        </div>
+
+        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+          <div class="text-indigo-400 font-semibold">Windows (1 Click):</div>
+          <p class="text-slate-400 text-[11px]">Just double-click this file in your project folder:</p>
+          <code class="px-2 py-1 rounded bg-slate-900 text-white border border-slate-700 block mono">START_NEXORA_WINDOWS.bat</code>
+        </div>
+      </div>
+
+      <div class="pt-2 text-right">
+        <button id="closeOfflineModalBtn2" type="button" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">Got It</button>
       </div>
     </div>
-  </footer>
+  </div>
 
   <script>
     (function () {
-      const API_BASE = window.location.protocol.startsWith('http') ? '' : 'http://127.0.0.1:8080';
-
-      const state = {
-        token: localStorage.getItem('nexora_session_token') || '',
-        user: null, // { user_id, email, full_name, role, is_active }
-        paymentOnboardingEnabled: false,
-        selectedLicenseId: null,
-        editions: [
-          {
-            code: 'personal',
-            name: 'Personal Edition',
-            billing: 'Individual Non-Commercial License',
-            priceUsd: null,
-            maxDevices: 1,
-            rateLimit: 0,
-            leaseDays: 30,
-            commercialAllowed: false,
-            features: [
-              '1 registered device limit',
-              'Local Native NexoraAI V14.2 inference (15,684,488 params)',
-              'Local SQLite desktop chat history',
-              'SymPy symbolic math verification'
-            ]
-          },
-          {
-            code: 'professional',
-            name: 'Professional Edition',
-            billing: 'Annual Professional Subscription',
-            priceUsd: null,
-            maxDevices: 2,
-            rateLimit: 0,
-            leaseDays: 30,
-            commercialAllowed: true,
-            features: [
-              'Up to 2 registered devices',
-              'Semantic Memory 2.2 (99.04% precision, typo-tolerant)',
-              'Full sampling & KV-cache controls',
-              '5-Language restricted code verification sandbox'
-            ]
-          },
-          {
-            code: 'developer',
-            name: 'Developer Edition',
-            billing: 'Annual Developer License',
-            priceUsd: null,
-            maxDevices: 3,
-            rateLimit: 120,
-            leaseDays: 45,
-            commercialAllowed: true,
-            features: [
-              'Up to 3 developer workstations',
-              'Local Python SDK & CLI integration (`native_v14_2_cli.py`)',
-              'Documented REST & IPC interfaces',
-              'Permitted commercial development subject to EULA'
-            ]
-          },
-          {
-            code: 'enterprise',
-            name: 'Enterprise Edition',
-            billing: 'Organization Multi-Seat Agreement',
-            priceUsd: null,
-            maxDevices: 25,
-            rateLimit: 600,
-            leaseDays: 90,
-            commercialAllowed: true,
-            features: [
-              '25+ authorized devices (configurable seat count)',
-              '90-day air-gapped offline activation leases',
-              'RBAC administrative controls & compliance audit logs',
-              'Enterprise SLA support & custom agreements'
-            ]
-          },
-          {
-            code: 'api',
-            name: 'API Edition',
-            billing: 'Usage-Based / Hosted Gateway',
-            priceUsd: null,
-            maxDevices: 5,
-            rateLimit: 300,
-            leaseDays: 14,
-            commercialAllowed: true,
-            features: [
-              'Scoped API keys (`nxra_live_...`)',
-              '300 req/min configurable rate limit',
-              'Server-side weights protection & usage dashboard',
-              'Signed webhook & JSON validation endpoints'
-            ]
-          }
-        ],
-        licenses: [],
-        devices: [],
-        invoices: [],
-        tickets: [],
-        auditLogs: [],
-        releases: [
-          {
-            id: 'rel_v14_1_0_native_desktop',
-            version: '14.2.0 (Frozen V14.1/V14.2 Native)',
-            channel: 'STABLE',
-            component: 'DESKTOP_AND_NATIVE_V14_2',
-            sha256: 'd285ab0e4e24916f27a7d7ec4b846c6a5bbc00e6f92d455f02083f851c073e56',
-            sizeBytes: 62741608,
-            allowed: true,
-            notes: 'Standalone Native NexoraAI Model (15,684,488 parameters, 39 FP32 tensors, d_model=384) + Desktop App & Semantic Memory 2.2.'
-          },
-          {
-            id: 'rel_v14_0_0_rollback_native',
-            version: '14.0.0-rollback',
-            channel: 'ROLLBACK',
-            component: 'NATIVE_CHECKPOINT_BACKUP',
-            sha256: 'd285ab0e4e24916f27a7d7ec4b846c6a5bbc00e6f92d455f02083f851c073e56',
-            sizeBytes: 62741608,
-            allowed: true,
-            notes: 'Verified stable rollback checkpoint snapshot (`checkpoints/backups/v14.0.0-stable/model.safetensors`).'
-          },
-          {
-            id: 'rel_v14_1_qwen_lora_quarantined',
-            version: '14.1.0-qwen-lora-internal',
-            channel: 'QUARANTINED_INTERNAL',
-            component: 'QWEN_LORA_ADAPTER_QUARANTINED',
-            sha256: '6f17e0278e2857a0a8e9757583b91f2014a605bcaf3c8f2eae6fdc39642e77a8',
-            sizeBytes: 35237176,
-            allowed: false,
-            notes: 'QUARANTINED: 24-layer Qwen2.5-0.5B LoRA adapter (8,798,208 parameters, 336 tensors). Commercial download blocked pending IP review.'
-          }
-        ]
-      };
-
-      function showToast(msg) {
-        const banner = document.getElementById('toastBanner');
-        const text = document.getElementById('toastMessage');
-        text.textContent = msg;
-        banner.classList.remove('hidden');
-      }
-
-      document.getElementById('closeToastBtn').addEventListener('click', function () {
-        document.getElementById('toastBanner').classList.add('hidden');
-      });
-
-      async function apiRequest(method, endpoint, body) {
-        const headers = { 'Content-Type': 'application/json' };
-        if (state.token) {
-          headers['Authorization'] = 'Bearer ' + state.token;
-        }
-        const opts = { method: method, headers: headers };
-        if (body && (method === 'POST' || method === 'PUT')) {
-          opts.body = JSON.stringify(body);
-        }
-        const res = await fetch(API_BASE + endpoint, opts);
-        const data = await res.json().catch(function () { return {}; });
-        if (!res.ok) {
-          const err = new Error(data.error || ('HTTP ' + res.status + ' ' + res.statusText));
-          err.status = res.status;
-          err.data = data;
-          throw err;
-        }
-        return data;
-      }
-
-      function updateSessionHeader() {
-        const pill = document.getElementById('sessionStatusPill');
-        const btn = document.getElementById('topAuthActionBtn');
-        const card = document.getElementById('currentSessionCard');
-        const emailSpan = document.getElementById('sessionEmailSpan');
-        const uidSpan = document.getElementById('sessionUidSpan');
-        const rolePill = document.getElementById('sessionRolePill');
-
-        if (state.user) {
-          const isAdmin = state.user.role === 'admin';
-          pill.textContent = state.user.email + ' (' + state.user.role.toUpperCase() + ')';
-          pill.className = isAdmin
-            ? 'px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 mono font-semibold'
-            : 'px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 mono font-semibold';
-          btn.textContent = 'Log Out';
-
-          if (card) {
-            card.classList.remove('hidden');
-            emailSpan.textContent = state.user.email;
-            uidSpan.textContent = state.user.user_id;
-            rolePill.textContent = state.user.role;
-            rolePill.className = isAdmin
-              ? 'px-2 py-0.5 rounded bg-indigo-500/30 text-indigo-200 mono'
-              : 'px-2 py-0.5 rounded bg-emerald-500/30 text-emerald-200 mono';
-          }
-        } else {
-          pill.textContent = 'Guest (Unauthenticated)';
-          pill.className = 'px-2.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 mono';
-          btn.textContent = 'Sign In';
-          if (card) card.classList.add('hidden');
-        }
-      }
-
-      async function checkSession() {
-        if (!state.token) {
-          state.user = null;
-          updateSessionHeader();
-          return;
-        }
-        try {
-          const res = await apiRequest('GET', '/api/v1/auth/me');
-          if (res && res.data && res.data.user) {
-            state.user = res.data.user;
-          } else {
-            state.user = null;
-            state.token = '';
-            localStorage.removeItem('nexora_session_token');
-          }
-        } catch (e) {
-          state.user = null;
-          state.token = '';
-          localStorage.removeItem('nexora_session_token');
-        }
-        updateSessionHeader();
-      }
-
-      function navigateTo(viewId) {
-        document.querySelectorAll('.page-view').forEach(function (el) {
-          el.classList.add('hidden');
-        });
-        const target = document.getElementById('view-' + viewId);
-        if (target) {
-          target.classList.remove('hidden');
-        }
-        if (viewId === 'customer-dashboard') {
-          renderCustomerDashboard();
-        } else if (viewId === 'admin-dashboard') {
-          renderAdminDashboard();
-        } else if (viewId === 'pricing') {
-          renderEditionsAndPricing();
-        }
-      }
-
-      document.querySelectorAll('.nav-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const target = btn.getAttribute('data-nav');
-          if (target) navigateTo(target);
-        });
-      });
-
-      document.getElementById('topAuthActionBtn').addEventListener('click', function () {
-        if (state.user) {
-          doLogout();
-        } else {
-          navigateTo('login');
-        }
-      });
-
-      // Tab switching in View 13
-      const tabSignIn = document.getElementById('authTabSignInBtn');
-      const tabRegister = document.getElementById('authTabRegisterBtn');
-      const paneSignIn = document.getElementById('authSignInPane');
-      const paneRegister = document.getElementById('authRegisterPane');
-
-      tabSignIn.addEventListener('click', function () {
-        tabSignIn.className = 'px-4 py-2 font-semibold border-b-2 border-emerald-400 text-emerald-300';
-        tabRegister.className = 'px-4 py-2 font-medium text-slate-400 hover:text-white border-b-2 border-transparent';
-        paneSignIn.classList.remove('hidden');
-        paneRegister.classList.add('hidden');
-      });
-
-      tabRegister.addEventListener('click', function () {
-        tabRegister.className = 'px-4 py-2 font-semibold border-b-2 border-emerald-400 text-emerald-300';
-        tabSignIn.className = 'px-4 py-2 font-medium text-slate-400 hover:text-white border-b-2 border-transparent';
-        paneRegister.classList.remove('hidden');
-        paneSignIn.classList.add('hidden');
-      });
-
-      // Quick Autofill
-      document.getElementById('quickFillAdminBtn').addEventListener('click', function () {
-        document.getElementById('loginEmail').value = 'admin@nexora.local';
-        document.getElementById('loginPassword').value = 'admin_pass_v14_2';
-      });
-
-      document.getElementById('quickFillCustomerBtn').addEventListener('click', function () {
-        document.getElementById('loginEmail').value = 'customer@example.com';
-        document.getElementById('loginPassword').value = 'CustomerPass123!';
-      });
-
-      async function doLogin(email, password) {
-        try {
-          const res = await apiRequest('POST', '/api/v1/auth/login', { email: email, password: password });
-          state.token = res.data.session_token;
-          localStorage.setItem('nexora_session_token', state.token);
-          state.user = res.data.user;
-          updateSessionHeader();
-          showToast('Authenticated as ' + state.user.email + ' (' + state.user.role.toUpperCase() + ') via PBKDF2-HMAC-SHA256.');
-          if (state.user.role === 'admin') {
-            navigateTo('admin-dashboard');
-          } else {
-            navigateTo('customer-dashboard');
-          }
-        } catch (err) {
-          showToast('Login Failed: ' + err.message);
-        }
-      }
-
-      async function doLogout() {
-        try {
-          if (state.token) {
-            await apiRequest('POST', '/api/v1/auth/logout', {}).catch(function () {});
-          }
-        } finally {
-          state.token = '';
-          localStorage.removeItem('nexora_session_token');
-          state.user = null;
-          updateSessionHeader();
-          showToast('Session logged out successfully.');
-          navigateTo('home');
-        }
-      }
-
-      document.getElementById('loginSubmitBtn').addEventListener('click', function () {
-        const em = document.getElementById('loginEmail').value.trim();
-        const pw = document.getElementById('loginPassword').value;
-        if (!em || !pw) {
-          showToast('Please enter both email and password.');
-          return;
-        }
-        doLogin(em, pw);
-      });
-
-      document.getElementById('regSubmitBtn').addEventListener('click', async function () {
-        const name = document.getElementById('regName').value.trim();
-        const em = document.getElementById('regEmail').value.trim();
-        const pw = document.getElementById('regPassword').value;
-        const comp = document.getElementById('regCompany').value.trim();
-        if (!em || !pw) {
-          showToast('Email and password are required.');
-          return;
-        }
-        try {
-          await apiRequest('POST', '/api/v1/auth/register', {
-            name: name || 'Customer',
-            email: em,
-            password: pw,
-            company: comp,
-            role: 'customer'
-          });
-          showToast('Customer account created successfully! Signing in...');
-          await doLogin(em, pw);
-        } catch (err) {
-          showToast('Registration Error: ' + err.message);
-        }
-      });
-
-      document.getElementById('sessionLogoutBtn').addEventListener('click', doLogout);
-      document.getElementById('sessionGoDashboardBtn').addEventListener('click', function () {
-        if (state.user && state.user.role === 'admin') {
-          navigateTo('admin-dashboard');
-        } else {
-          navigateTo('customer-dashboard');
-        }
-      });
-
-      document.getElementById('elevateToAdminDemoBtn').addEventListener('click', function () {
-        navigateTo('login');
-        tabSignIn.click();
-        document.getElementById('loginEmail').value = 'admin@nexora.local';
-        document.getElementById('loginPassword').value = 'admin_pass_v14_2';
-      });
-
-      document.getElementById('custGoLoginBtn').addEventListener('click', function () {
-        navigateTo('login');
-      });
-
-      // Render Editions and Pricing
-      async function renderEditionsAndPricing() {
-        const prodGrid = document.getElementById('productEditionsGrid');
-        const priceGrid = document.getElementById('pricingCardsContainer');
-        if (prodGrid) prodGrid.innerHTML = '';
-        if (priceGrid) priceGrid.innerHTML = '';
-
-        try {
-          const res = await apiRequest('GET', '/api/v1/public/editions');
-          if (res && Array.isArray(res.data)) {
-            res.data.forEach(function (srvEd) {
-              const localEd = state.editions.find(function (x) { return x.code === srvEd.edition_code; });
-              if (localEd) {
-                localEd.maxDevices = srvEd.max_devices;
-                localEd.rateLimit = srvEd.rate_limit_per_minute;
-                localEd.leaseDays = srvEd.lease_duration_days;
-                if (srvEd.pricing_configured_by_admin && srvEd.price_cents !== null) {
-                  localEd.priceUsd = srvEd.price_cents / 100.0;
-                }
-              }
-            });
-          }
-        } catch (e) {}
-
-        const gateBadge = document.getElementById('paymentGateBadgePricing');
-        if (gateBadge) {
-          gateBadge.textContent = state.paymentOnboardingEnabled
-            ? 'Payment Gateway: ENABLED (Webhook HMAC Verified)'
-            : 'Payment Gateway: DISABLED (Pending Legal Onboarding)';
-          gateBadge.className = state.paymentOnboardingEnabled
-            ? 'px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs mono'
-            : 'px-3 py-1.5 rounded-lg bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs mono';
-        }
-
-        state.editions.forEach(function (ed) {
-          const priceLabel = ed.priceUsd !== null
-            ? ('USD $' + ed.priceUsd.toFixed(2))
-            : 'Configurable by Admin (Unpriced)';
-
-          const cardHtml =
-            '<div class="glass-panel rounded-xl p-6 flex flex-col justify-between space-y-4">' +
-              '<div class="space-y-2">' +
-                '<div class="flex items-center justify-between">' +
-                  '<span class="text-xs font-bold uppercase tracking-wider text-emerald-400 mono">' + ed.code + '</span>' +
-                  '<span class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-300 mono">Max Devices: ' + ed.maxDevices + '</span>' +
-                '</div>' +
-                '<h3 class="text-lg font-bold text-white">' + ed.name + '</h3>' +
-                '<div class="text-xs text-slate-400">' + ed.billing + '</div>' +
-                '<div class="text-sm font-bold text-amber-300 mono pt-1">' + priceLabel + '</div>' +
-                '<ul class="text-xs text-slate-300 space-y-1.5 pt-2">' +
-                  ed.features.map(function (f) { return '<li>• ' + f + '</li>'; }).join('') +
-                '</ul>' +
-              '</div>' +
-              '<button type="button" data-checkout-ed="' + ed.code + '" class="checkout-btn w-full py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-xs font-medium transition">Request Checkout / License</button>' +
-            '</div>';
-
-          if (prodGrid) prodGrid.insertAdjacentHTML('beforeend', cardHtml);
-          if (priceGrid) priceGrid.insertAdjacentHTML('beforeend', cardHtml);
-        });
-
-        document.querySelectorAll('.checkout-btn').forEach(function (btn) {
-          btn.addEventListener('click', async function () {
-            const code = btn.getAttribute('data-checkout-ed');
-            try {
-              await apiRequest('POST', '/api/v1/payments/checkout', { edition_code: code });
-              showToast('Checkout initialized for ' + code);
-            } catch (err) {
-              showToast('Backend Response [' + err.status + ']: ' + err.message);
-            }
-          });
-        });
-      }
-
-      // Workbench simulator
-      function executeWorkbenchQuery(q) {
-        const box = document.getElementById('workbenchOutputBox');
-        if (!box) return;
-        const ql = q.trim().toLowerCase();
-        let tool = 'STANDALONE_CAUSAL_MOE_V14_2';
-        let ver = 'NATIVE_V14_2';
-        let memHit = null;
-        let answer = '';
-
-        if (ql.indexOf('solve 6x - 18 = 30') !== -1 || ql.indexOf('solve') !== -1) {
-          tool = 'SYMPY_SOLVER';
-          ver = 'SYMBOLICALLY_VERIFIED';
-          answer = 'Parsed equation `6*x - 18 = 30`, solved via SymPy, and verified by substituting back into LHS - RHS == 0: **x = 8**. [Verification: SYMBOLICALLY_VERIFIED]';
-        } else if (ql.indexOf('skyy') !== -1 || ql.indexOf('raylegh') !== -1 || ql.indexOf('sky') !== -1) {
-          tool = 'SEMANTIC_MEMORY_2_2';
-          ver = 'MEMORY_2_2_HIGH_CONFIDENCE';
-          memHit = '[RETRIEVED SEMANTIC MEMORY 2.2 — doc_id=train_0084 confidence=MEDIUM(0.76) typo_resolved={explan->explain, skyy->sky, raylegh->rayleigh, scatering->scatter}]';
-          answer = 'The daytime sky appears blue due to **Rayleigh scattering**: molecules in Earth\'s atmosphere scatter shorter-wavelength light (violet and blue) much more strongly (proportional to 1/λ^4) than longer-wavelength red light.';
-        } else if (ql.indexOf('cap theorem') !== -1) {
-          tool = 'SEMANTIC_MEMORY_2_2';
-          ver = 'MEMORY_2_2_HIGH_CONFIDENCE';
-          memHit = '[RETRIEVED SEMANTIC MEMORY 2.2 — doc_id=train_0192 confidence=HIGH(0.91) score=0.642]';
-          answer = 'Brewer\'s **CAP Theorem** states that during a network **Partition (P)**, a distributed data store must choose between **Consistency (C)** (every read receives the most recent write) and **Availability (A)** (every request receives a non-error response).';
-        } else if (ql.indexOf('martian') !== -1 || ql.indexOf('soup') !== -1) {
-          tool = 'OOV_SPECIFICITY_GUARD';
-          ver = 'ZERO_FALSE_POSITIVE_REJECTION';
-          memHit = '0 hits returned (Unresolved OOV entities `martian`, `soup` rejected by SemanticMemory 2.2 specificity gate)';
-          answer = '[Out-of-Domain Query Guard]: Semantic Memory 2.2 rejected false-positive retrieval (0 hits). Local autoregressive response generated with 0 external API calls.';
-        } else {
-          answer = 'Executed locally on Native NexoraAI V14.2 (15,684,488 parameters, 39 FP32 tensors, KV-Cache ON). Zero external API calls.';
-        }
-
-        box.innerHTML =
-          '<div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-800">' +
-            '<span class="text-emerald-400 font-semibold mono">Tool: ' + tool + '</span>' +
-            '<span class="px-2 py-0.5 rounded bg-slate-900 text-slate-300 mono">Badge: ' + ver + '</span>' +
-          '</div>' +
-          (memHit ? '<div class="text-[11px] text-indigo-300 mono">' + memHit + '</div>' : '') +
-          '<div class="text-slate-100 leading-relaxed pt-1">' + answer + '</div>';
-      }
-
-      document.getElementById('runWorkbenchQueryBtn').addEventListener('click', function () {
-        executeWorkbenchQuery(document.getElementById('workbenchPromptInput').value);
-      });
-
-      document.querySelectorAll('.sample-q-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const q = btn.getAttribute('data-sample-query');
-          document.getElementById('workbenchPromptInput').value = q;
-          executeWorkbenchQuery(q);
-        });
-      });
+      const chatFeed = document.getElementById('chatFeed');
+      const welcomeCard = document.getElementById('welcomeCard');
+      const chatForm = document.getElementById('chatForm');
+      const chatInput = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const clearChatBtn = document.getElementById('clearChatBtn');
+      const showOfflineModalBtn = document.getElementById('showOfflineModalBtn');
+      const closeOfflineModalBtn = document.getElementById('closeOfflineModalBtn');
+      const closeOfflineModalBtn2 = document.getElementById('closeOfflineModalBtn2');
+      const offlineModal = document.getElementById('offlineModal');
 
       function escapeHtml(str) {
         if (!str) return '';
@@ -1337,769 +239,106 @@ python3 commercial_platform/tests/run_commercial_security_and_ip_suite.py</pre>
           .replace(/'/g, '&#39;');
       }
 
-      const homePlaygroundForm = document.getElementById('homePlaygroundForm');
-      const homePlaygroundInput = document.getElementById('homePlaygroundInput');
-      const homePlaygroundFeed = document.getElementById('homePlaygroundFeed');
+      function formatResponse(text) {
+        const safe = escapeHtml(text);
+        // Format python code blocks
+        return safe.replace(/```python([\s\S]*?)```/g, function (_, code) {
+          return '<pre class="my-2"><code>' + code.trim() + '</code></pre>';
+        }).replace(/```([\s\S]*?)```/g, function (_, code) {
+          return '<pre class="my-2"><code>' + code.trim() + '</code></pre>';
+        }).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-slate-950 text-emerald-300 border border-slate-800">$1</code>');
+      }
 
-      async function sendHomeChat(msg) {
-        if (!msg || !msg.trim()) return;
-        const query = msg.trim();
-        if (homePlaygroundInput) homePlaygroundInput.value = '';
-        if (!homePlaygroundFeed) return;
+      async function sendUserPrompt(promptText) {
+        if (!promptText || !promptText.trim()) return;
+        const query = promptText.trim();
+        chatInput.value = '';
 
+        if (welcomeCard) {
+          welcomeCard.classList.add('hidden');
+        }
+
+        // 1. Add user message
         const userRow = document.createElement('div');
-        userRow.className = 'flex items-start justify-end gap-3';
-        userRow.innerHTML = '<div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-xs md:text-sm max-w-2xl leading-relaxed">' + escapeHtml(query) + '</div>';
-        homePlaygroundFeed.appendChild(userRow);
+        userRow.className = 'flex justify-end';
+        userRow.innerHTML = '<div class="max-w-[85%] md:max-w-xl p-3.5 rounded-2xl rounded-tr-none bg-emerald-500/15 border border-emerald-500/30 text-emerald-100 text-xs md:text-sm leading-relaxed shadow-sm">' +
+          escapeHtml(query) +
+          '</div>';
+        chatFeed.appendChild(userRow);
 
+        // 2. Add thinking bubble
         const aiRow = document.createElement('div');
         aiRow.className = 'flex items-start gap-3';
         aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>' +
-          '<div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs md:text-sm max-w-2xl flex items-center gap-2">' +
-          '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Reasoning...' +
+          '<div class="max-w-[85%] md:max-w-2xl p-4 rounded-2xl rounded-tl-none bg-slate-900 border border-slate-800 text-slate-400 text-xs md:text-sm flex items-center gap-2">' +
+          '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Thinking...' +
           '</div>';
-        homePlaygroundFeed.appendChild(aiRow);
-        homePlaygroundFeed.scrollTop = homePlaygroundFeed.scrollHeight;
+        chatFeed.appendChild(aiRow);
+        chatFeed.scrollTop = chatFeed.scrollHeight;
 
+        // 3. Request answer from backend API
         try {
-          const res = await apiRequest('POST', '/api/v1/public/chat', { message: query });
-          const data = res.data || {};
-          const ans = data.response || data.answer || 'Response generated.';
-          const tool = data.tool || 'Neuro-Symbolic';
-          const lat = data.latency_ms ? ' (' + data.latency_ms + ' ms)' : '';
+          const resp = await fetch('/api/v1/public/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: query })
+          });
+          const data = await resp.json().catch(function () { return {}; });
+          if (!resp.ok) {
+            throw new Error(data.error || 'Server error ' + resp.status);
+          }
+          const info = data.data || {};
+          const ans = info.response || info.answer || 'Response generated.';
+          const tool = info.tool || 'Neuro-Symbolic';
+          const lat = info.latency_ms ? info.latency_ms + ' ms' : '';
+
           aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>' +
-            '<div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 text-xs md:text-sm max-w-2xl space-y-1.5 leading-relaxed">' +
-            '<div class="flex items-center justify-between gap-2 text-[11px] text-emerald-400 font-mono border-b border-slate-800 pb-1">' +
+            '<div class="max-w-[85%] md:max-w-2xl p-4 rounded-2xl rounded-tl-none bg-slate-900 border border-slate-800 text-slate-100 text-xs md:text-sm space-y-2 leading-relaxed shadow-sm">' +
+            '<div class="flex items-center justify-between text-[11px] text-emerald-400 font-mono border-b border-slate-800 pb-1.5">' +
             '<span>Tool: ' + escapeHtml(tool) + '</span>' +
-            '<span class="text-slate-400">' + lat + '</span>' +
+            '<span class="text-slate-500">' + lat + '</span>' +
             '</div>' +
-            '<div class="whitespace-pre-wrap pt-1">' + escapeHtml(ans) + '</div>' +
+            '<div class="pt-1 whitespace-pre-wrap leading-relaxed">' + formatResponse(ans) + '</div>' +
             '</div>';
         } catch (err) {
           aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-red-500/30">!</div>' +
-            '<div class="p-3 rounded-xl bg-red-950/40 border border-red-800 text-red-300 text-xs max-w-2xl">' + escapeHtml(err.message || 'Error processing query') + '</div>';
-        }
-        homePlaygroundFeed.scrollTop = homePlaygroundFeed.scrollHeight;
-      }
-
-      if (homePlaygroundForm) {
-        homePlaygroundForm.addEventListener('submit', function (e) {
-          e.preventDefault();
-          sendHomeChat(homePlaygroundInput.value);
-        });
-      }
-
-      document.querySelectorAll('.home-sample-chip').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          const q = btn.getAttribute('data-q');
-          sendHomeChat(q);
-        });
-      });
-
-      ['Temp', 'TopK', 'MaxTok'].forEach(function (id) {
-        const input = document.getElementById('ctrl' + id);
-        const lbl = document.getElementById('lbl' + id);
-        if (input && lbl) {
-          input.addEventListener('input', function () {
-            lbl.textContent = input.value;
-          });
-        }
-      });
-
-      // Render Controlled Downloads
-      function renderDownloads() {
-        const container = document.getElementById('releasesListContainer');
-        if (!container) return;
-        container.innerHTML = '';
-
-        state.releases.forEach(function (r) {
-          const badge = r.allowed
-            ? '<span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 text-[11px] mono">COMMERCIAL AUTHORIZED</span>'
-            : '<span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 text-[11px] mono">QUARANTINED (IP REVIEW PENDING)</span>';
-
-          const html =
-            '<div class="glass-panel rounded-xl p-5 flex flex-wrap items-center justify-between gap-4">' +
-              '<div class="space-y-1 max-w-2xl">' +
-                '<div class="flex items-center gap-2">' +
-                  '<span class="font-bold text-white text-sm mono">' + r.version + '</span>' +
-                  badge +
-                '</div>' +
-                '<div class="text-xs text-slate-300">' + r.notes + '</div>' +
-                '<div class="text-[11px] text-slate-400 mono">SHA-256: ' + r.sha256 + ' (' + r.sizeBytes.toLocaleString() + ' bytes)</div>' +
-                '<div id="dlTokenBox-' + r.id + '" class="hidden pt-2 text-xs mono text-emerald-300"></div>' +
-              '</div>' +
-              '<button type="button" data-dl-id="' + r.id + '" class="dl-auth-btn px-4 py-2 rounded-lg ' +
-                (r.allowed ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold' : 'bg-rose-950/70 hover:bg-rose-900 text-rose-200 border border-rose-700/50') +
-                ' text-xs transition">' +
-                (r.allowed ? 'Generate Single-Use Download Token' : 'Attempt Quarantined Download') +
-              '</button>' +
+            '<div class="p-3.5 rounded-2xl bg-red-950/40 border border-red-800 text-red-300 text-xs">' +
+            'Error: ' + escapeHtml(err.message) +
             '</div>';
-          container.insertAdjacentHTML('beforeend', html);
-        });
-
-        document.querySelectorAll('.dl-auth-btn').forEach(function (btn) {
-          btn.addEventListener('click', async function () {
-            const relId = btn.getAttribute('data-dl-id');
-            const tokenBox = document.getElementById('dlTokenBox-' + relId);
-
-            if (!state.user) {
-              showToast('Authentication required. Please sign in to authorize downloads.');
-              navigateTo('login');
-              return;
-            }
-
-            const activeLic = state.licenses.find(function (l) { return l.status === 'ACTIVE'; });
-            const licKey = activeLic ? activeLic.key : 'NXRA-V142-PROF-DEMO-ENTITLEMENT';
-
-            try {
-              const res = await apiRequest('POST', '/api/v1/downloads/authorize', {
-                release_id: relId,
-                license_key: licKey
-              });
-              const meta = res.data;
-              showToast('Authorized Single-Use Download Token issued for ' + relId + '!');
-              if (tokenBox) {
-                tokenBox.innerHTML =
-                  '<div class="p-2 rounded bg-slate-900 border border-emerald-500/40 space-y-1">' +
-                    '<div><strong>Token:</strong> ' + meta.download_token + ' (valid for ' + meta.expires_in_seconds + 's)</div>' +
-                    '<div><strong>SHA-256:</strong> ' + meta.sha256_checksum + '</div>' +
-                    '<a href="' + API_BASE + meta.download_url + '" class="inline-block mt-1 px-3 py-1 rounded bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 text-xs">Direct Stream Download (' + relId + ')</a>' +
-                  '</div>';
-                tokenBox.classList.remove('hidden');
-              }
-            } catch (err) {
-              showToast('Backend Download Rejection [' + err.status + ']: ' + err.message);
-            }
-          });
-        });
+        }
+        chatFeed.scrollTop = chatFeed.scrollHeight;
       }
 
-      // Legal tabs
-      const legalDocs = {
-        eula: '<h4>Proprietary Software End-User License Agreement (EULA) [DRAFT]</h4><p>1. <strong>Subject Model:</strong> Licenses grant rights solely to execute the standalone Native NexoraAI V14.2 software and checkpoint (`15,684,488` parameters, `39` tensors) up to the licensed device limit. 2. <strong>No Key Embedding:</strong> Private signing keys remain strictly on the licensing server. 3. <strong>Verification Disclaimer:</strong> Only outputs bearing `[Verification: SYMBOLICALLY_VERIFIED]` or `[Code verified]` have been verified by deterministic SymPy/sandbox execution.</p>',
-        privacy: '<h4>Privacy Policy — Zero Prompt Collection Guarantee [DRAFT]</h4><p>NexoraAI V14.2 executes locally on your CPU. Our `AnalyticsAndSupportService` enforces `FORBIDDEN_PRIVACY_KEYS` in code (`sec_15_privacy_analytics_rejects_prompt_collection = PASS`), automatically rejecting any telemetry payload that contains `prompt`, `chat`, `messages`, or `completion` fields.</p>',
-        tos: '<h4>Terms of Service, Acceptable Use &amp; Refund Policy [DRAFT]</h4><p>1. Commercial checkout requires adult/legal entity onboarding. 2. Paid licenses are never activated from client-side claims; server-verified HMAC webhooks with idempotency protection are mandatory. 3. Refunds processed via `payment.refunded` webhooks automatically revoke the associated license and deactivate registered devices.</p>',
-        notices: '<h4>IP Compliance Summary &amp; Third-Party Open-Source Notices</h4><p>NexoraAI claims zero ownership over third-party dependencies: <strong>NumPy, SciPy, SymPy</strong> (BSD-3-Clause), <strong>PyYAML, FastAPI, Pydantic</strong> (MIT), <strong>Python &amp; Tkinter</strong> (PSF-2.0), and optional <strong>PySide6</strong> (LGPL-3.0 dynamic linking required). The separate 24-layer Qwen2.5-0.5B LoRA adapter (`8,798,208` params) is quarantined from commercial sale pending Apache-2.0 base-model and dataset provenance sign-off.</p>'
-      };
+      chatForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        sendUserPrompt(chatInput.value);
+      });
 
-      function renderLegalTab(key) {
-        const el = document.getElementById('legalContentPanel');
-        if (el) el.innerHTML = legalDocs[key] || legalDocs.eula;
-      }
-
-      document.querySelectorAll('.legal-tab-btn').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          renderLegalTab(btn.getAttribute('data-legal-tab'));
+      document.querySelectorAll('.prompt-card').forEach(function (card) {
+        card.addEventListener('click', function () {
+          const q = card.getAttribute('data-prompt');
+          sendUserPrompt(q);
         });
       });
 
-      // Render Customer Dashboard
-      async function renderCustomerDashboard() {
-        const authReq = document.getElementById('custAuthRequiredBox');
-        const content = document.getElementById('custDashboardContent');
-
-        if (!state.user) {
-          if (authReq) authReq.classList.remove('hidden');
-          if (content) content.classList.add('hidden');
-          return;
-        }
-
-        if (authReq) authReq.classList.add('hidden');
-        if (content) content.classList.remove('hidden');
-
-        document.getElementById('custProfileEmail').textContent = state.user.email;
-        document.getElementById('custProfileName').textContent = state.user.full_name || 'Customer';
-
-        // Load customer dashboard data from backend
-        try {
-          const dash = await apiRequest('GET', '/api/v1/customer/dashboard');
-          if (dash && dash.data) {
-            state.licenses = dash.data.licenses || [];
-            state.devices = dash.data.devices || [];
-            state.invoices = dash.data.invoices || [];
-          }
-        } catch (e) {
-          // If dashboard request fails or unauthenticated, fallback
-        }
-
-        // Load customer support tickets
-        try {
-          const tktRes = await apiRequest('GET', '/api/v1/customer/support');
-          if (tktRes && Array.isArray(tktRes.data)) {
-            state.tickets = tktRes.data;
-          }
-        } catch (e) {}
-
-        const licList = document.getElementById('custLicensesList');
-        const licCountBadge = document.getElementById('custLicenseCountBadge');
-        licList.innerHTML = '';
-        licCountBadge.textContent = state.licenses.length + ' licenses assigned';
-
-        if (state.licenses.length === 0) {
-          licList.innerHTML = '<div class="text-xs text-slate-400 p-3 rounded bg-slate-900 border border-slate-800">No active licenses assigned. Contact sales or request administrator entitlement.</div>';
-        } else {
-          state.licenses.forEach(function (lic) {
-            const isSel = lic.id === state.selectedLicenseId || (!state.selectedLicenseId && lic.status === 'ACTIVE');
-            if (isSel && !state.selectedLicenseId) state.selectedLicenseId = lic.id;
-
-            const html =
-              '<div class="p-3.5 rounded-lg bg-slate-900 border ' + (isSel ? 'border-emerald-500' : 'border-slate-800') + ' flex flex-wrap items-center justify-between gap-2 text-xs">' +
-                '<div>' +
-                  '<div class="font-bold text-white mono">' + lic.key + '</div>' +
-                  '<div class="text-slate-400">Edition: <strong class="text-emerald-300 uppercase">' + lic.edition + '</strong> • Status: <span class="mono ' + (lic.status === 'ACTIVE' ? 'text-emerald-400' : 'text-rose-400') + '">' + lic.status + '</span> • Max Devices: ' + lic.maxDevices + ' • Expires: ' + (lic.expires || 'PERPETUAL') + '</div>' +
-                '</div>' +
-                '<button type="button" data-sel-lic="' + lic.id + '" class="sel-lic-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200">' + (isSel ? 'Selected' : 'Select') + '</button>' +
-              '</div>';
-            licList.insertAdjacentHTML('beforeend', html);
-          });
-        }
-
-        document.querySelectorAll('.sel-lic-btn').forEach(function (b) {
-          b.addEventListener('click', function () {
-            state.selectedLicenseId = b.getAttribute('data-sel-lic');
-            renderCustomerDashboard();
-          });
-        });
-
-        // Devices
-        const devList = document.getElementById('custDevicesList');
-        devList.innerHTML = '';
-        const relevantDevices = state.devices.filter(function (d) {
-          return !state.selectedLicenseId || d.licenseId === state.selectedLicenseId;
-        });
-
-        if (relevantDevices.length === 0) {
-          devList.innerHTML = '<div class="text-xs text-slate-400 p-2 text-center">No devices currently activated on selected license.</div>';
-        } else {
-          relevantDevices.forEach(function (d) {
-            const html =
-              '<div class="p-3 rounded bg-slate-900/70 border border-slate-800 flex items-center justify-between text-xs">' +
-                '<div>' +
-                  '<span class="font-semibold text-white mono">' + d.fingerprint + '</span> — ' + (d.name || 'Workstation') +
-                  ' <span class="text-slate-400">(' + d.licenseId + ' • <strong class="' + (d.status === 'ACTIVE' ? 'text-emerald-400' : 'text-slate-500') + '">' + d.status + '</strong>)</span>' +
-                '</div>' +
-                (d.status === 'ACTIVE'
-                  ? '<button type="button" data-deact-fp="' + d.fingerprint + '" data-deact-lic="' + d.licenseId + '" class="deact-btn text-rose-400 hover:text-rose-300 underline font-medium">Deactivate</button>'
-                  : '<span class="text-slate-500 mono">DEACTIVATED</span>') +
-              '</div>';
-            devList.insertAdjacentHTML('beforeend', html);
-          });
-        }
-
-        document.querySelectorAll('.deact-btn').forEach(function (b) {
-          b.addEventListener('click', async function () {
-            const fp = b.getAttribute('data-deact-fp');
-            const licId = b.getAttribute('data-deact-lic');
-            try {
-              await apiRequest('POST', '/api/v1/customer/devices/deactivate', {
-                license_id: licId,
-                hardware_fingerprint: fp
-              });
-              showToast('Device ' + fp + ' deactivated successfully.');
-              renderCustomerDashboard();
-            } catch (err) {
-              showToast('Deactivation Error: ' + err.message);
-            }
-          });
-        });
-
-        // Invoices and Tickets
-        const invBox = document.getElementById('custInvoicesAndTickets');
-        invBox.innerHTML =
-          '<div class="font-semibold text-slate-200">Verified Invoices:</div>' +
-          (state.invoices.length > 0
-            ? state.invoices.map(function (i) {
-                return '<div class="p-2 rounded bg-slate-900 border border-slate-800 mono text-[11px]">' + i.number + ' • ' + i.edition + ' • ' + i.amount + ' [' + i.status + ']</div>';
-              }).join('')
-            : '<div class="text-[11px] text-slate-400 p-1.5">No invoices yet. Commercial checkouts disabled.</div>') +
-          '<div class="font-semibold text-slate-200 pt-2">Support Tickets:</div>' +
-          (state.tickets.length > 0
-            ? state.tickets.map(function (t) {
-                return '<div class="p-2 rounded bg-slate-900 border border-slate-800 text-[11px] space-y-1">' +
-                  '<div class="flex justify-between font-bold text-white"><span>' + t.ticket_id + ': ' + t.subject + '</span><span class="mono text-indigo-300">' + t.status + '</span></div>' +
-                  (t.admin_reply ? '<div class="text-emerald-300 text-[10px]">Admin Reply: ' + t.admin_reply + '</div>' : '') +
-                '</div>';
-              }).join('')
-            : '<div class="text-[11px] text-slate-400 p-1.5">No support tickets submitted.</div>');
-      }
-
-      // Activate device on selected license
-      document.getElementById('activateNewDeviceBtn').addEventListener('click', async function () {
-        const fp = document.getElementById('newDevFpInput').value.trim();
-        const name = document.getElementById('newDevNameInput').value.trim() || 'Workstation';
-        if (!fp) {
-          showToast('Device fingerprint is required.');
-          return;
-        }
-        const activeLic = state.licenses.find(function (x) { return x.id === state.selectedLicenseId && x.status === 'ACTIVE'; }) ||
-                          state.licenses.find(function (x) { return x.status === 'ACTIVE'; });
-        if (!activeLic) {
-          showToast('Error: No active license selected.');
-          return;
-        }
-
-        try {
-          const res = await apiRequest('POST', '/api/v1/licenses/activate', {
-            license_key: activeLic.key,
-            hardware_fingerprint: fp,
-            device_name: name,
-            client_version: '14.2.0'
-          });
-          showToast('Device ' + fp + ' activated! Lease digest: ' + (res.data.signed_lease_digest || 'OK'));
-          renderCustomerDashboard();
-        } catch (err) {
-          showToast('Activation Failed [' + err.status + ']: ' + err.message);
+      clearChatBtn.addEventListener('click', function () {
+        chatFeed.innerHTML = '';
+        if (welcomeCard) {
+          welcomeCard.classList.remove('hidden');
+          chatFeed.appendChild(welcomeCard);
         }
       });
 
-      // Update customer profile name
-      document.getElementById('custUpdateNameBtn').addEventListener('click', async function () {
-        const newName = document.getElementById('custNewNameInput').value.trim();
-        if (!newName) return;
-        try {
-          await apiRequest('POST', '/api/v1/customer/profile', { name: newName });
-          state.user.full_name = newName;
-          showToast('Customer profile updated.');
-          renderCustomerDashboard();
-        } catch (err) {
-          showToast('Profile Update Error: ' + err.message);
-        }
+      showOfflineModalBtn.addEventListener('click', function () {
+        offlineModal.classList.remove('hidden');
       });
-
-      // Submit support ticket from Customer Dashboard
-      document.getElementById('custSubmitTicketBtn').addEventListener('click', async function () {
-        const subj = document.getElementById('custTicketSubj').value.trim();
-        const msg = document.getElementById('custTicketMsg').value.trim();
-        const prio = document.getElementById('custTicketPrio').value;
-        if (!subj || !msg) {
-          showToast('Subject and message are required.');
-          return;
-        }
-        try {
-          const res = await apiRequest('POST', '/api/v1/customer/support', {
-            subject: subj,
-            message: msg,
-            priority: prio,
-            category: 'Licensing & Activation'
-          });
-          showToast('Support ticket ' + res.data.ticket_id + ' created.');
-          document.getElementById('custTicketSubj').value = '';
-          document.getElementById('custTicketMsg').value = '';
-          renderCustomerDashboard();
-        } catch (err) {
-          showToast('Support Ticket Error: ' + err.message);
-        }
+      closeOfflineModalBtn.addEventListener('click', function () {
+        offlineModal.classList.add('hidden');
       });
-
-      // Submit support ticket from View 12 Support Page
-      document.getElementById('submitSupportTicketBtn').addEventListener('click', async function () {
-        const subj = document.getElementById('supSubject').value.trim();
-        const msg = document.getElementById('supMessage').value.trim();
-        const cat = document.getElementById('supCategory').value;
-        const prio = document.getElementById('supPriority').value;
-        if (!subj) return;
-        try {
-          const res = await apiRequest('POST', '/api/v1/customer/support', {
-            subject: subj,
-            message: msg,
-            category: cat,
-            priority: prio
-          });
-          showToast('Support ticket ' + res.data.ticket_id + ' submitted to Admin queue.');
-          navigateTo('customer-dashboard');
-        } catch (err) {
-          showToast('Ticket Submission: ' + err.message);
-        }
+      closeOfflineModalBtn2.addEventListener('click', function () {
+        offlineModal.classList.add('hidden');
       });
-
-      // Security test button: client payment spoof
-      document.getElementById('testSpoofPaymentBtn').addEventListener('click', async function () {
-        try {
-          await apiRequest('POST', '/api/v1/payments/client-claim', {
-            edition_code: 'developer',
-            claimed_amount_usd: 199.0,
-            simulated_card_token: 'tok_visa_4242'
-          });
-          showToast('UNEXPECTED: Client claim succeeded.');
-        } catch (err) {
-          showToast('HTTP ' + err.status + ' Blocked: ' + err.message);
-        }
-      });
-
-      // Render Admin Dashboard
-      async function renderAdminDashboard() {
-        const deniedBox = document.getElementById('adminRbacDeniedBox');
-        const deniedMsg = document.getElementById('adminRbacDeniedMsg');
-        const contentBox = document.getElementById('adminConsoleContent');
-
-        if (!state.user || state.user.role !== 'admin') {
-          deniedBox.classList.remove('hidden');
-          contentBox.classList.add('hidden');
-          if (!state.user) {
-            deniedMsg.innerHTML = 'You are unauthenticated. Access to <span class="mono text-amber-300">/api/v1/admin/*</span> requires an administrator session token.';
-          } else {
-            deniedMsg.innerHTML = 'Your current session role is <span class="mono text-amber-300">' + state.user.role + '</span>. Ordinary customers are barred by backend RBAC from accessing <span class="mono text-amber-300">/api/v1/admin/*</span>. This violation is logged in `audit_logs`.';
-            // Also test live RBAC endpoint to demonstrate 403 Forbidden
-            apiRequest('GET', '/api/v1/admin/analytics').catch(function (err) {
-              console.warn('Live backend RBAC check confirmed 403 rejection:', err.message);
-            });
-          }
-          return;
-        }
-
-        deniedBox.classList.add('hidden');
-        contentBox.classList.remove('hidden');
-
-        // Fetch Analytics KPI
-        try {
-          const aRes = await apiRequest('GET', '/api/v1/admin/analytics');
-          if (aRes && aRes.data) {
-            const d = aRes.data;
-            document.getElementById('kpiCustomers').textContent = d.total_customers || 0;
-            document.getElementById('kpiLicenses').textContent = d.active_licenses || 0;
-            document.getElementById('kpiDevices').textContent = d.active_devices || 0;
-          }
-        } catch (e) {}
-
-        // Fetch Monitoring & System Health Probe
-        refreshMonitoringProbe();
-
-        // Fetch Customers
-        try {
-          const cRes = await apiRequest('GET', '/api/v1/admin/customers');
-          if (cRes && Array.isArray(cRes.data)) {
-            const table = document.getElementById('admCustomersTable');
-            table.innerHTML = cRes.data.map(function (c) {
-              const active = c.is_active == 1;
-              return '<div class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">' +
-                '<div>' +
-                  '<div class="font-bold text-white mono">' + c.email + '</div>' +
-                  '<div class="text-[11px] text-slate-400">' + (c.full_name || 'Customer') + ' • Status: <strong class="' + (active ? 'text-emerald-400' : 'text-rose-400') + '">' + (active ? 'ACTIVE' : 'SUSPENDED') + '</strong> • Role: ' + c.role + '</div>' +
-                '</div>' +
-                (c.role !== 'admin'
-                  ? '<button type="button" data-tog-uid="' + c.user_id + '" data-tog-act="' + (active ? '0' : '1') + '" class="tog-cust-btn px-2.5 py-1 rounded ' + (active ? 'bg-rose-950/70 text-rose-300 border border-rose-800/40 hover:bg-rose-900' : 'bg-emerald-950/70 text-emerald-300 border border-emerald-800/40 hover:bg-emerald-900') + ' text-[11px] font-semibold">' + (active ? 'Suspend' : 'Activate') + '</button>'
-                  : '<span class="mono text-[11px] text-indigo-400">ADMIN</span>') +
-              '</div>';
-            }).join('');
-
-            document.querySelectorAll('.tog-cust-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const uid = b.getAttribute('data-tog-uid');
-                const newAct = b.getAttribute('data-tog-act') === '1';
-                try {
-                  await apiRequest('POST', '/api/v1/admin/customers/toggle-status', {
-                    user_id: uid,
-                    is_active: newAct
-                  });
-                  showToast('Customer account status updated.');
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Account Toggle Error: ' + err.message);
-                }
-              });
-            });
-          }
-        } catch (e) {}
-
-        // Fetch Licenses
-        try {
-          const lRes = await apiRequest('GET', '/api/v1/admin/licenses');
-          if (lRes && Array.isArray(lRes.data)) {
-            const table = document.getElementById('admLicensesTable');
-            table.innerHTML = lRes.data.map(function (l) {
-              return '<div class="p-2 rounded bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">' +
-                '<div>' +
-                  '<span class="mono font-semibold text-white">' + l.license_key + '</span>' +
-                  '<div class="text-[11px] text-slate-400">' + l.edition_code.toUpperCase() + ' • Status: <strong class="' + (l.status === 'ACTIVE' ? 'text-emerald-400' : 'text-rose-400') + '">' + l.status + '</strong> • Devs: ' + l.active_device_count + '/' + l.max_devices + '</div>' +
-                '</div>' +
-                '<div class="flex gap-2">' +
-                  (l.status === 'ACTIVE'
-                    ? '<button type="button" data-sus-lic="' + l.license_id + '" class="sus-lic-btn text-amber-300 hover:text-amber-200 underline text-[11px]">Suspend</button>'
-                    : '<button type="button" data-rea-lic="' + l.license_id + '" class="rea-lic-btn text-emerald-300 hover:text-emerald-200 underline text-[11px]">Reactivate</button>') +
-                  (l.status !== 'REVOKED'
-                    ? '<button type="button" data-rev-lic="' + l.license_id + '" class="rev-lic-btn text-rose-400 hover:text-rose-300 underline text-[11px]">Revoke</button>'
-                    : '') +
-                '</div>' +
-              '</div>';
-            }).join('');
-
-            document.querySelectorAll('.sus-lic-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const id = b.getAttribute('data-sus-lic');
-                try {
-                  await apiRequest('POST', '/api/v1/admin/licenses/suspend', { license_id: id });
-                  showToast('License suspended.');
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Error: ' + err.message);
-                }
-              });
-            });
-
-            document.querySelectorAll('.rea-lic-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const id = b.getAttribute('data-rea-lic');
-                try {
-                  await apiRequest('POST', '/api/v1/admin/licenses/reactivate', { license_id: id });
-                  showToast('License reactivated.');
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Error: ' + err.message);
-                }
-              });
-            });
-
-            document.querySelectorAll('.rev-lic-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const id = b.getAttribute('data-rev-lic');
-                try {
-                  await apiRequest('POST', '/api/v1/admin/licenses/revoke', { license_id: id, reason: 'Administrative Revocation' });
-                  showToast('License revoked and all bound devices deactivated.');
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Error: ' + err.message);
-                }
-              });
-            });
-          }
-        } catch (e) {}
-
-        // Fetch Devices
-        try {
-          const dRes = await apiRequest('GET', '/api/v1/admin/devices');
-          if (dRes && Array.isArray(dRes.data)) {
-            const table = document.getElementById('admDevicesTable');
-            table.innerHTML = dRes.data.map(function (d) {
-              const active = d.status === 'ACTIVE';
-              return '<div class="p-2 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">' +
-                '<div>' +
-                  '<span class="mono font-semibold text-white">' + d.hardware_fingerprint + '</span> — ' + (d.device_name || 'Workstation') +
-                  '<div class="text-[11px] text-slate-400">License: ' + d.license_id + ' • Status: <strong class="' + (active ? 'text-emerald-400' : 'text-slate-500') + '">' + d.status + '</strong></div>' +
-                '</div>' +
-                (active
-                  ? '<button type="button" data-adm-deact-fp="' + d.hardware_fingerprint + '" data-adm-deact-lic="' + d.license_id + '" class="adm-deact-dev-btn text-rose-400 hover:text-rose-300 underline font-medium text-[11px]">Deactivate</button>'
-                  : '<span class="mono text-[11px] text-slate-500">DEACTIVATED</span>') +
-              '</div>';
-            }).join('');
-
-            document.querySelectorAll('.adm-deact-dev-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const fp = b.getAttribute('data-adm-deact-fp');
-                const licId = b.getAttribute('data-adm-deact-lic');
-                try {
-                  await apiRequest('POST', '/api/v1/admin/devices/deactivate', {
-                    license_id: licId,
-                    hardware_fingerprint: fp
-                  });
-                  showToast('Admin deactivated device ' + fp);
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Device Deactivation Error: ' + err.message);
-                }
-              });
-            });
-          }
-        } catch (e) {}
-
-        // Fetch Support Tickets
-        try {
-          const tRes = await apiRequest('GET', '/api/v1/admin/support/tickets');
-          if (tRes && Array.isArray(tRes.data)) {
-            const table = document.getElementById('admTicketsTable');
-            table.innerHTML = tRes.data.map(function (t) {
-              return '<div class="p-3 rounded bg-slate-900 border border-slate-800 space-y-2 text-xs">' +
-                '<div class="flex justify-between items-center">' +
-                  '<span class="font-bold text-white">' + t.ticket_id + ' — ' + t.subject + '</span>' +
-                  '<span class="mono px-2 py-0.5 rounded bg-slate-800 text-indigo-300 text-[10px]">' + t.priority + ' / ' + t.status + '</span>' +
-                '</div>' +
-                '<div class="text-slate-300 text-[11px]">' + (t.message || '') + '</div>' +
-                (t.admin_reply ? '<div class="p-2 rounded bg-slate-950 border border-slate-800 text-emerald-300 text-[11px]"><strong>Admin Response:</strong> ' + t.admin_reply + '</div>' : '') +
-                '<div class="flex gap-2 pt-1">' +
-                  '<input id="replyInput-' + t.ticket_id + '" type="text" placeholder="Type administrative response..." class="bg-slate-950 border border-slate-700 rounded px-2.5 py-1 text-xs text-white flex-1" />' +
-                  '<button type="button" data-reply-tkt="' + t.ticket_id + '" class="adm-reply-btn px-3 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs">Reply &amp; Resolve</button>' +
-                '</div>' +
-              '</div>';
-            }).join('');
-
-            document.querySelectorAll('.adm-reply-btn').forEach(function (b) {
-              b.addEventListener('click', async function () {
-                const tid = b.getAttribute('data-reply-tkt');
-                const inp = document.getElementById('replyInput-' + tid);
-                const replyText = inp ? inp.value.trim() : '';
-                if (!replyText) return;
-                try {
-                  await apiRequest('POST', '/api/v1/admin/support/reply', {
-                    ticket_id: tid,
-                    reply_message: replyText,
-                    new_status: 'RESOLVED'
-                  });
-                  showToast('Reply dispatched for ticket ' + tid);
-                  renderAdminDashboard();
-                } catch (err) {
-                  showToast('Reply Error: ' + err.message);
-                }
-              });
-            });
-          }
-        } catch (e) {}
-
-        // Fetch Audit Logs
-        try {
-          const logRes = await apiRequest('GET', '/api/v1/admin/audit-logs');
-          if (logRes && Array.isArray(logRes.data)) {
-            const logList = document.getElementById('admAuditLogList');
-            logList.innerHTML = logRes.data.map(function (l) {
-              return '<div class="p-1.5 rounded bg-slate-900/90 border border-slate-800/80 text-slate-300">' +
-                '[' + (l.created_at || '') + '] [' + (l.actor_role || '').toUpperCase() + '] ' +
-                '<strong>' + (l.action || '') + '</strong>: ' + (l.target || '') + ' -> ' + (l.status || '') +
-                (l.details ? ' (' + l.details + ')' : '') +
-              '</div>';
-            }).join('');
-          }
-        } catch (e) {}
-
-        // Pricing Summary in Admin
-        const priceSum = document.getElementById('admPricingSummary');
-        priceSum.innerHTML = state.editions.map(function (e) {
-          return '<div class="flex justify-between mono"><span>' + e.code + ' (max ' + e.maxDevices + ' devs):</span><span class="text-emerald-300">' +
-            (e.priceUsd !== null ? ('$' + e.priceUsd.toFixed(2) + ' USD') : 'UNCONFIGURED') + '</span></div>';
-        }).join('');
-      }
-
-      async function refreshMonitoringProbe() {
-        const details = document.getElementById('admHealthProbeDetails');
-        if (!details) return;
-        try {
-          const res = await apiRequest('GET', '/api/v1/health');
-          const d = res.data;
-          document.getElementById('kpiSystemStatus').textContent = d.status;
-          document.getElementById('kpiSystemStatus').className = d.status === 'HEALTHY'
-            ? 'text-lg font-bold text-emerald-400 mono'
-            : 'text-lg font-bold text-amber-400 mono';
-
-          details.innerHTML =
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Database &amp; WAL</div>' +
-              '<div class="text-emerald-300 font-bold">' + (d.database_online ? 'ONLINE (Integrity Verified)' : 'OFFLINE') + '</div>' +
-            '</div>' +
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Native V14.2 Model Checkpoint</div>' +
-              '<div class="text-emerald-300 font-bold">' + (d.native_v14_2_checkpoint_present ? 'EXACT MATCH (62,741,608 bytes)' : 'MISSING') + '</div>' +
-            '</div>' +
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Qwen LoRA Quarantine</div>' +
-              '<div class="text-emerald-300 font-bold">' + (d.qwen_lora_quarantine_enforced ? 'ENFORCED (dist_allowed=0)' : 'UNENFORCED') + '</div>' +
-            '</div>' +
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Process Memory (VmRSS)</div>' +
-              '<div class="text-indigo-300 font-bold">' + (d.process_rss_mb || 0) + ' MB</div>' +
-            '</div>' +
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Service Uptime</div>' +
-              '<div class="text-indigo-300 font-bold">' + Math.round(d.uptime_seconds || 0) + ' seconds</div>' +
-            '</div>' +
-            '<div class="p-2.5 rounded bg-slate-900 border border-slate-800">' +
-              '<div class="text-slate-400">Logged Error Events</div>' +
-              '<div class="text-amber-300 font-bold">' + (d.logged_error_events_count || 0) + ' events</div>' +
-            '</div>';
-        } catch (err) {
-          details.innerHTML = '<div class="col-span-3 text-rose-400">Error querying monitoring probe: ' + err.message + '</div>';
-        }
-      }
-
-      document.getElementById('refreshMonitoringBtn').addEventListener('click', refreshMonitoringProbe);
-
-      // Admin Action: Save Edition Price
-      document.getElementById('admSavePriceBtn').addEventListener('click', async function () {
-        const code = document.getElementById('admEditionSelect').value;
-        const val = parseFloat(document.getElementById('admPriceInput').value);
-        if (isNaN(val) || val < 0) {
-          showToast('Valid price is required.');
-          return;
-        }
-        try {
-          await apiRequest('POST', '/api/v1/admin/pricing', {
-            edition_code: code,
-            price_cents: Math.round(val * 100)
-          });
-          showToast('Pricing for ' + code + ' updated to USD $' + val.toFixed(2));
-          await renderEditionsAndPricing();
-          renderAdminDashboard();
-        } catch (err) {
-          showToast('Pricing Update Error: ' + err.message);
-        }
-      });
-
-      // Admin Action: Toggle Payment Onboarding Gate
-      document.getElementById('togglePaymentOnboardingBtn').addEventListener('click', async function () {
-        const nextState = !state.paymentOnboardingEnabled;
-        try {
-          await apiRequest('POST', '/api/v1/admin/payments/onboarding', {
-            enabled: nextState,
-            authorized_by: state.user ? state.user.email : 'admin@nexora.local'
-          });
-          state.paymentOnboardingEnabled = nextState;
-          showToast('Payment Onboarding Gate set to: ' + (nextState ? 'ENABLED' : 'DISABLED'));
-          renderEditionsAndPricing();
-        } catch (err) {
-          showToast('Payment Gate Error: ' + err.message);
-        }
-      });
-
-      // Admin Action: Issue New License
-      document.getElementById('admIssueLicenseBtn').addEventListener('click', async function () {
-        const ed = document.getElementById('admIssueEditionSelect').value;
-        try {
-          const res = await apiRequest('POST', '/api/v1/admin/licenses/issue', {
-            edition_code: ed,
-            customer_email: 'customer@example.com'
-          });
-          showToast('Signed ' + ed.toUpperCase() + ' license issued: ' + res.data.license_key);
-          renderAdminDashboard();
-        } catch (err) {
-          showToast('License Issuance Error: ' + err.message);
-        }
-      });
-
-      // Admin Action: Instant Database Backup
-      document.getElementById('admBackupBtn').addEventListener('click', async function () {
-        try {
-          const res = await apiRequest('POST', '/api/v1/admin/database/backup', { tag: 'admin_dashboard' });
-          showToast('Database backup created: ' + res.data.backup_file + ' (SHA-256: ' + res.data.sha256.substring(0, 16) + '...)');
-          renderAdminDashboard();
-        } catch (err) {
-          showToast('Backup Error: ' + err.message);
-        }
-      });
-
-      // Admin Action: Simulate Signed Webhook
-      document.getElementById('simulateSignedWebhookBtn').addEventListener('click', async function () {
-        const eventId = 'evt_' + Math.random().toString(36).substring(2, 10);
-        showToast('Webhook event ' + eventId + ' requires valid HMAC-SHA256 signature from payment processor.');
-        try {
-          // Direct demonstration call to webhook
-          await apiRequest('POST', '/api/v1/payments/webhook', {
-            event_id: eventId,
-            event_type: 'payment.succeeded',
-            customer_email: 'customer@example.com',
-            edition_code: 'developer',
-            amount_cents: 19900
-          });
-          showToast('Webhook processed! Developer license issued.');
-          renderAdminDashboard();
-        } catch (err) {
-          showToast('Webhook Verification Notice: ' + err.message);
-        }
-      });
-
-      // Bootstrap initialization
-      (async function initApp() {
-        await checkSession();
-        await renderEditionsAndPricing();
-        executeWorkbenchQuery(document.getElementById('workbenchPromptInput').value);
-        renderDownloads();
-        renderLegalTab('eula');
-      })();
     })();
   </script>
 </body>
