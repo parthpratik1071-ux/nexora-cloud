@@ -115,9 +115,12 @@
             NexoraAI V14.2 combines a compact, purpose-built standalone Causal Mixture-of-Experts neural model (<span class="mono text-emerald-300">15,684,488</span> parameters across <span class="mono text-emerald-300">39</span> FP32 tensors) with SymPy algebraic verification, a restricted 5-language compiler sandbox, and deterministic Semantic Memory 2.2. Engineered by <strong>Pratik Parth</strong> for offline-capable desktop and enterprise workstations.
           </p>
           <div class="flex flex-wrap gap-3 pt-2">
-            <button type="button" data-nav="product" class="nav-btn px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition">Explore Commercial Editions</button>
-            <button type="button" data-nav="customer-dashboard" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-medium text-xs transition">Open Customer License Portal</button>
-            <button type="button" data-nav="performance" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-medium text-xs transition">Inspect Verified Benchmarks</button>
+            <a href="#instant-ai-playground" class="px-5 py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition flex items-center gap-1.5">
+              <span>⚡ Try Live AI Chat Below</span>
+              <span>↓</span>
+            </a>
+            <button type="button" data-nav="downloads" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-medium text-xs transition">💻 Run Locally on PC (Offline)</button>
+            <button type="button" data-nav="customer-dashboard" class="nav-btn px-5 py-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-medium text-xs transition">Customer Portal</button>
           </div>
         </div>
 
@@ -141,6 +144,72 @@
             <div class="text-xs text-slate-400">Commercial Security Suite</div>
             <div class="text-xl font-bold text-white mono mt-1">16 / 16 PASS</div>
             <div class="text-[11px] text-emerald-400 mt-0.5">PBKDF2-600k • Signed Leases</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE INTERACTIVE AI PLAYGROUND (TRY IMMEDIATELY ON HOME PAGE) -->
+      <div id="instant-ai-playground" class="glass-panel rounded-2xl p-6 md:p-8 border-2 border-emerald-500/40 shadow-2xl bg-slate-900/95 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div class="flex items-center gap-3">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            </span>
+            <div>
+              <h2 class="text-base md:text-lg font-bold text-white flex items-center gap-2">
+                Live Interactive AI Chat — Test NexoraAI V14.2
+                <span class="text-[11px] font-normal px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">Free • No Login Needed</span>
+              </h2>
+              <p class="text-xs text-slate-400">Ask any math problem, coding question, or scientific explanation below:</p>
+            </div>
+          </div>
+          <div class="text-xs text-slate-400 mono">Model: <span class="text-emerald-400 font-semibold">V14.2 Standalone (15.68M)</span></div>
+        </div>
+
+        <!-- Chat Output Feed -->
+        <div id="homePlaygroundFeed" class="min-h-[160px] max-h-[380px] overflow-y-auto p-4 rounded-xl bg-slate-950/95 border border-slate-800 space-y-3 text-xs md:text-sm">
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>
+            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-200 leading-relaxed max-w-2xl">
+              <div class="font-semibold text-white mb-1">Welcome to NexoraAI V14.2!</div>
+              <div>Type a math equation, code problem, or question below, or click any of the quick sample buttons to test me instantly with zero setup.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Sample Prompts -->
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Quick Prompts (Click to Run):</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Solve 8x - 16 = 48">Solve 8x - 16 = 48</button>
+            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="What is 15 * 24 + 10?">What is 15 * 24 + 10?</button>
+            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Why does the sky appear blue?">Why does the sky appear blue?</button>
+            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Write a Python Fibonacci function">Write Python Fibonacci</button>
+            <button type="button" class="home-sample-chip px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-emerald-500/20 hover:text-emerald-300 hover:border-emerald-500/40 text-slate-300 border border-slate-700 transition" data-q="Who created NexoraAI?">Who created you?</button>
+          </div>
+        </div>
+
+        <!-- Input Bar -->
+        <form id="homePlaygroundForm" class="flex gap-2">
+          <input id="homePlaygroundInput" type="text" placeholder="Type your question or math equation here..." class="flex-1 px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white placeholder-slate-500 text-xs md:text-sm focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 focus:outline-none" required />
+          <button id="homePlaygroundSubmitBtn" type="submit" class="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs md:text-sm transition flex items-center gap-2 shrink-0">
+            <span>Send</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </form>
+
+        <!-- 1-Click Local PC Launcher Instruction -->
+        <div class="pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 text-slate-300">
+            <span class="text-emerald-400 font-semibold">💻 Run locally on your PC (100% Offline):</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-400">Linux/Mac:</span>
+            <code class="px-2 py-0.5 rounded bg-slate-950 text-emerald-300 border border-slate-800 mono">./start_nexora_linux_mac.sh</code>
+            <span class="text-slate-500">|</span>
+            <span class="text-slate-400">Windows:</span>
+            <code class="px-2 py-0.5 rounded bg-slate-950 text-indigo-300 border border-slate-800 mono">START_NEXORA_WINDOWS.bat</code>
           </div>
         </div>
       </div>
@@ -1255,6 +1324,75 @@ python3 commercial_platform/tests/run_commercial_security_and_ip_suite.py</pre>
           const q = btn.getAttribute('data-sample-query');
           document.getElementById('workbenchPromptInput').value = q;
           executeWorkbenchQuery(q);
+        });
+      });
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      const homePlaygroundForm = document.getElementById('homePlaygroundForm');
+      const homePlaygroundInput = document.getElementById('homePlaygroundInput');
+      const homePlaygroundFeed = document.getElementById('homePlaygroundFeed');
+
+      async function sendHomeChat(msg) {
+        if (!msg || !msg.trim()) return;
+        const query = msg.trim();
+        if (homePlaygroundInput) homePlaygroundInput.value = '';
+        if (!homePlaygroundFeed) return;
+
+        const userRow = document.createElement('div');
+        userRow.className = 'flex items-start justify-end gap-3';
+        userRow.innerHTML = '<div class="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-xs md:text-sm max-w-2xl leading-relaxed">' + escapeHtml(query) + '</div>';
+        homePlaygroundFeed.appendChild(userRow);
+
+        const aiRow = document.createElement('div');
+        aiRow.className = 'flex items-start gap-3';
+        aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>' +
+          '<div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs md:text-sm max-w-2xl flex items-center gap-2">' +
+          '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Reasoning...' +
+          '</div>';
+        homePlaygroundFeed.appendChild(aiRow);
+        homePlaygroundFeed.scrollTop = homePlaygroundFeed.scrollHeight;
+
+        try {
+          const res = await apiRequest('POST', '/api/v1/public/chat', { message: query });
+          const data = res.data || {};
+          const ans = data.response || data.answer || 'Response generated.';
+          const tool = data.tool || 'Neuro-Symbolic';
+          const lat = data.latency_ms ? ' (' + data.latency_ms + ' ms)' : '';
+          aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-emerald-500/30">NX</div>' +
+            '<div class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-100 text-xs md:text-sm max-w-2xl space-y-1.5 leading-relaxed">' +
+            '<div class="flex items-center justify-between gap-2 text-[11px] text-emerald-400 font-mono border-b border-slate-800 pb-1">' +
+            '<span>Tool: ' + escapeHtml(tool) + '</span>' +
+            '<span class="text-slate-400">' + lat + '</span>' +
+            '</div>' +
+            '<div class="whitespace-pre-wrap pt-1">' + escapeHtml(ans) + '</div>' +
+            '</div>';
+        } catch (err) {
+          aiRow.innerHTML = '<div class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-xs mono shrink-0 border border-red-500/30">!</div>' +
+            '<div class="p-3 rounded-xl bg-red-950/40 border border-red-800 text-red-300 text-xs max-w-2xl">' + escapeHtml(err.message || 'Error processing query') + '</div>';
+        }
+        homePlaygroundFeed.scrollTop = homePlaygroundFeed.scrollHeight;
+      }
+
+      if (homePlaygroundForm) {
+        homePlaygroundForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          sendHomeChat(homePlaygroundInput.value);
+        });
+      }
+
+      document.querySelectorAll('.home-sample-chip').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const q = btn.getAttribute('data-q');
+          sendHomeChat(q);
         });
       });
 

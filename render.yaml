@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     region: oregon
-    buildCommand: "pip install --upgrade pip"
+    buildCommand: "pip install --upgrade pip sympy"
     startCommand: "python3 commercial_platform/api/wsgi_production_server.py --host 0.0.0.0 --port $PORT"
     healthCheckPath: /api/v1/health
     envVars:

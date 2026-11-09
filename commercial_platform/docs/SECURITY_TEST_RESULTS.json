@@ -83,7 +83,7 @@
     {
       "test": "sec_16_database_backup_and_disaster_recovery",
       "status": "PASS",
-      "detail": "backup=nexora_commercial_sec_test_20261108_085727.sqlite3, sha256=9633779c22012420..."
+      "detail": "backup=nexora_commercial_sec_test_20261109_055452.sqlite3, sha256=cdbd8fa6b609cdc1..."
     },
     {
       "test": "sec_17_api_rate_limiting",
@@ -108,7 +108,7 @@
     {
       "test": "sec_21_support_ticket_lifecycle",
       "status": "PASS",
-      "detail": "created=tkt_4a9a5c37095b, replied_status=RESOLVED"
+      "detail": "created=tkt_c6c97b4380fc, replied_status=RESOLVED"
     },
     {
       "test": "sec_22_object_storage_sigv4_and_credential_protection",

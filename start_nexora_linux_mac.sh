@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-cd ""/usr/bin"
-exec python3 run_nexora_pc.py ""
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+exec python3 run_nexora_pc.py "$@"
